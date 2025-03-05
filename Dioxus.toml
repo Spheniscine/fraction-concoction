@@ -1,4 +1,5 @@
 [application]
+out_dir = "docs"
 
 [web.app]
 base_path = "fraction-concoction"
