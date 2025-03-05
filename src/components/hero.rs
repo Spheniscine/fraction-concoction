@@ -15,7 +15,7 @@ pub fn Hero() -> Element {
             div { id: "links",
                 span {
                     class: "select-none",
-                    dangerous_inner_html: {html}
+                    dangerous_inner_html: html
                 }
                 a { href: "https://dioxuslabs.com/learn/0.6/", "📚 Learn Dioxus" }
                 a { href: "https://dioxuslabs.com/awesome", "🚀 Awesome Dioxus" }
