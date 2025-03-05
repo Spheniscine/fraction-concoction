@@ -1,0 +1,31 @@
+[package]
+name = "fraction-concoction"
+version = "0.1.0"
+authors = ["Spheniscine <spheniscine@gmail.com>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+dioxus = { version = "0.6.0", features = [] }
+getrandom = { version = "0.3.1", features = ["wasm_js"] }
+rand = "0.9.0"
+katex = { version = "0.4.6", default-features = false, features = ["wasm-js"] }
+
+[features]
+default = ["web"]
+web = ["dioxus/web"]
+desktop = ["dioxus/desktop"]
+mobile = ["dioxus/mobile"]
+
+[profile]
+
+[profile.wasm-dev]
+inherits = "dev"
+opt-level = 1
+
+[profile.server-dev]
+inherits = "dev"
+
+[profile.android-dev]
+inherits = "dev"

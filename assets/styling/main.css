@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+}
+
+html {
+    font-size: min(1vw, 0.5625vh);
+}
+
+body {
+    background-color: #0f1116;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#hero {
+    background-color: #300;
+    margin: 0;
+    aspect-ratio: 9 / 16;
+    width: 100rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#links {
+    width: 80rem;
+    text-align: left;
+
+    font-size: 5rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#links a {
+    color: white;
+    text-decoration: none;
+    margin-top: 4rem;
+    margin: 2rem 0px;
+    border: white 0.2rem solid;
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
+#links a:hover {
+    background-color: #1f1f1f;
+    cursor: pointer;
+}
+
+#header {
+    width: 100rem;
+    /* max-width: 240rem; */
+}
