@@ -7,7 +7,7 @@ platform = "web"
 base_path = "fraction-concoction"
 
 # HTML title tag content
-title = "fraction-concoction"
+title = "Fraction Concoction"
 
 # include `assets` in web platform
 [web.resource]
