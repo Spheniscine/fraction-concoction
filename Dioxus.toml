@@ -1,7 +1,6 @@
 [application]
 
 # `build` & `serve` dist path
-out_dir = "docs"
 platform = "web"
 
 [web.app]
