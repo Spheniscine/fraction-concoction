@@ -79,10 +79,98 @@ pub fn Hero() -> Element {
                 },
             },
 
-            // Math {
-            //     style: "font-size: 5rem",
-            //     tex: r#"1 \large\frac {{12}} {{34}} \Omega"#,
-            // }
+
+            // Blender
+            div {
+                style: "position: absolute; left: 61.25rem; top: 43rem; width: 33rem; height: 50rem; padding: 2rem; background-color: #ccc;
+                     display: flex; flex-direction: column; justify-content: center; align-items: center; 
+                     text-align: center;",
+                p {
+                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
+                    "BLENDER"
+                }
+            },
+
+            div {
+                style: "position: absolute; left: 5rem; top: 99rem; width: 17.5rem; height: 22.5rem; background-color: #0ff;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem;",
+                    tex: r#"\large\frac{{1}}{{2}} \Omega"#,
+                }
+            },
+            div {
+                style: "position: absolute; left: 40rem; top: 99rem; width: 17.5rem; height: 22.5rem; background-color: #f00;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem; color: #fff",
+                    tex: r#"2 \large\frac{{3}}{{4}} \Delta"#,
+                }
+            },
+            div {
+                style: "position: absolute; left: 76rem; top: 99rem; width: 17.5rem; height: 22.5rem; background-color: #ff0;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem;",
+                    tex: r#"\large\frac{{7}}{{13}} \Psi"#,
+                }
+            },
+
+
+            div {
+                style: "position: absolute; left: 2rem; top: 123rem; width: 15rem; height: 24rem; background-color: #ccc;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem;",
+                    tex: r#"\large\frac{{2}}{{13}}"#,
+                }
+            },
+            div {
+                style: "position: absolute; left: 19rem; top: 123rem; width: 15rem; height: 24rem; background-color: #ccc;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem;",
+                    tex: r#"\large\frac{{1}}{{2}}"#,
+                }
+            },
+            div {
+                style: "position: absolute; left: 36rem; top: 123rem; width: 15rem; height: 24rem; background-color: #ccc;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem;",
+                    tex: r#"\large\frac{{1}}{{4}}"#,
+                }
+            },
+            div {
+                style: "position: absolute; left: 2rem; top: 151rem; width: 15rem; height: 24rem; background-color: #ccc;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem;",
+                    tex: r#"1"#,
+                }
+            },
+            div {
+                style: "position: absolute; left: 19rem; top: 151rem; width: 15rem; height: 24rem; background-color: #ccc;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem;",
+                    tex: r#"\large\frac{{5}}{{13}}"#,
+                }
+            },
+            div {
+                style: "position: absolute; left: 36rem; top: 151rem; width: 15rem; height: 24rem; background-color: #ccc;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 5rem;",
+                    tex: r#"\large\frac{{3}}{{13}}"#,
+                }
+            },
+
+            div {
+                style: "position: absolute; left: 55rem; top: 127rem; width: 40rem; height: 45rem; background-color: #ccc;
+                     display: flex; justify-content: center; align-items: center; font-size: 5rem;",
+                "TRASH"
+            },
         }
         // div {
         //     id: "hero",
