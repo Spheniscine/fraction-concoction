@@ -1,5 +1,7 @@
 use dioxus::prelude::*;
 
+use crate::components::math::Math;
+
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
 const TEST_SVG: Asset = asset!("/assets/test.svg");
@@ -27,10 +29,9 @@ pub fn Hero() -> Element {
             div {
                 style: "position: absolute; left: 81.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #0ff",
             },
-            span {
+            Math {
                 style: "font-size: 5rem",
-                class: "select-none",
-                dangerous_inner_html: html
+                tex: r#"1 \large\frac {{12}} {{34}} \Omega"#,
             }
         }
         // div {
