@@ -15,24 +15,49 @@ pub fn Hero() -> Element {
         div {
             id: "hero",
             div {
-                style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #f00",
+                style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #f00;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 7rem; color: #fff",
+                    tex: r#"\Delta"#,
+                }
             },
             div {
-                style: "position: absolute; left: 21.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #0f0",
+                style: "position: absolute; left: 21.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #0f0;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 7rem;",
+                    tex: r#"\Theta"#,
+                }
             },
             div {
-                style: "position: absolute; left: 41.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #00f",
+                style: "position: absolute; left: 41.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #00f;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 7rem; color: #fff",
+                    tex: r#"\Sigma"#,
+                }
             },
             div {
-                style: "position: absolute; left: 61.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #ff0",
+                style: "position: absolute; left: 61.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #ff0;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 7rem;",
+                    tex: r#"\Psi"#,
+                }
             },
             div {
-                style: "position: absolute; left: 81.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #0ff",
+                style: "position: absolute; left: 81.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #0ff;
+                     display: flex; justify-content: center; align-items: center;",
+                Math {
+                    style: "font-size: 7rem;",
+                    tex: r#"\Omega"#,
+                }
             },
-            Math {
-                style: "font-size: 5rem",
-                tex: r#"1 \large\frac {{12}} {{34}} \Omega"#,
-            }
+            // Math {
+            //     style: "font-size: 5rem",
+            //     tex: r#"1 \large\frac {{12}} {{34}} \Omega"#,
+            // }
         }
         // div {
         //     id: "hero",
