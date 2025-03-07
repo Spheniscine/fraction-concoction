@@ -54,6 +54,31 @@ pub fn Hero() -> Element {
                     tex: r#"\Omega"#,
                 }
             },
+
+            // Recipe
+            div {
+                style: "position: absolute; left: 1.25rem; top: 43rem; width: 53.5rem; height: 50rem; padding: 2rem; background-color: #ffc;
+                     display: flex; flex-direction: column; justify-content: center; align-items: center; 
+                     text-align: center;",
+                p {
+                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 4rem;",
+                    "Recipe for:", br {},
+                    "Non-Newtonian Preservative"
+                },
+                Math {
+                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
+                    tex: r#"\large\frac{{1}}{{2}} \Omega"#,
+                },
+                Math {
+                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
+                    tex: r#"2 \large\frac{{3}}{{4}} \Delta"#,
+                },
+                Math {
+                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
+                    tex: r#"\large\frac{{7}}{{13}} \Psi"#,
+                },
+            },
+
             // Math {
             //     style: "font-size: 5rem",
             //     tex: r#"1 \large\frac {{12}} {{34}} \Omega"#,
