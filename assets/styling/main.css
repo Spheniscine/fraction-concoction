@@ -18,13 +18,13 @@ body {
 }
 
 #hero {
+    position: relative;
     background-color: #300;
     margin: 0;
     aspect-ratio: 9 / 16;
     width: 100rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
