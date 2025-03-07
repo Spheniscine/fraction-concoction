@@ -14,6 +14,7 @@ pub fn Hero() -> Element {
     rsx! {
         div {
             id: "hero",
+            class: "select-none",
             div {
                 style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #f00;
                      display: flex; justify-content: center; align-items: center;",
