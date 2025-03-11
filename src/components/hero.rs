@@ -72,7 +72,7 @@ pub fn Hero() -> Element {
                 },
                 Math {
                     style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-                    tex: r#"2 \large\frac{{3}}{{4}} \Delta"#,
+                    tex: r#"2 \large\frac{{1113}}{{2224}} \Delta"#,
                 },
                 Math {
                     style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
@@ -93,7 +93,7 @@ pub fn Hero() -> Element {
             },
 
             div {
-                style: "position: absolute; left: 5rem; top: 99rem; width: 17.5rem; height: 22.5rem; background-color: #0ff;
+                style: "position: absolute; left: 2.5rem; top: 99rem; width: 23rem; height: 22.5rem; background-color: #0ff;
                      display: flex; justify-content: center; align-items: center;",
                 Math {
                     style: "font-size: 5rem;",
@@ -101,15 +101,15 @@ pub fn Hero() -> Element {
                 }
             },
             div {
-                style: "position: absolute; left: 40rem; top: 99rem; width: 17.5rem; height: 22.5rem; background-color: #f00;
+                style: "position: absolute; left: 37.5rem; top: 99rem; width: 23rem; height: 22.5rem; background-color: #f00;
                      display: flex; justify-content: center; align-items: center;",
                 Math {
                     style: "font-size: 5rem; color: #fff",
-                    tex: r#"2 \large\frac{{3}}{{4}} \Delta"#,
+                    tex: r#"2 \large\frac{{1113}}{{2224}} \Delta"#,
                 }
             },
             div {
-                style: "position: absolute; left: 76rem; top: 99rem; width: 17.5rem; height: 22.5rem; background-color: #ff0;
+                style: "position: absolute; left: 74.5rem; top: 99rem; width: 23rem; height: 22.5rem; background-color: #ff0;
                      display: flex; justify-content: center; align-items: center;",
                 Math {
                     style: "font-size: 5rem;",
