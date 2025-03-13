@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::components::math::Math;
+use crate::{components::math::Math, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -8,8 +8,7 @@ const TEST_SVG: Asset = asset!("/assets/test.svg");
 
 #[component]
 pub fn Hero() -> Element {
-    // let opts = katex::Opts::builder().output_type(katex::OutputType::Html).build().unwrap();
-    let html = katex::render(r#"1 \large\frac {12} {34} \Omega"#).unwrap();
+    let test_tex = (Fraction::new(3, 16) + Fraction::new(5, 16)).to_tex();
 
     rsx! {
         div {
@@ -72,7 +71,7 @@ pub fn Hero() -> Element {
                 },
                 Math {
                     style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-                    tex: r#"2 \large\frac{{1113}}{{2224}} \Delta"#,
+                    tex: r#"{test_tex} \Delta"#,
                 },
                 Math {
                     style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",

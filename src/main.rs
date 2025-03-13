@@ -3,6 +3,7 @@ use dioxus::prelude::*;
 use components::Hero;
 
 mod components;
+mod utils;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const MAIN_CSS: Asset = asset!("/assets/styling/main.css");
