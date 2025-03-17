@@ -1,2 +1,5 @@
 mod color;
-pub use color::Color;
+pub use color::*;
+
+mod consts;
+pub use consts::*;
