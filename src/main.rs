@@ -4,6 +4,7 @@ use components::Hero;
 
 mod components;
 mod utils;
+mod game;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const MAIN_CSS: Asset = asset!("/assets/styling/main.css");
