@@ -1,6 +1,6 @@
 use strum_macros::{EnumCount, EnumIter};
 
-#[derive(Clone, Copy, Debug, EnumCount, EnumIter)]
+#[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq)]
 pub enum Color {
     Red,
     Green,
@@ -26,6 +26,15 @@ impl Color {
             Color::Blue => "\\Sigma",
             Color::Yellow => "\\Psi",
             Color::Cyan => "\\Omega",
+        }
+    }
+    pub fn contrast_html_color(&self) -> &str {
+        match self {
+            Color::Red => "#fff",
+            Color::Green => "#000",
+            Color::Blue => "#fff",
+            Color::Yellow => "#000",
+            Color::Cyan => "#000",
         }
     }
 }
