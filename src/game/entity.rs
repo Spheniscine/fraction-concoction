@@ -1,3 +1,5 @@
+use super::Color;
+
 #[derive(Clone, Copy, Debug, Hash, Eq, PartialEq)]
 pub enum Entity {
     Dispenser { color: Color },
