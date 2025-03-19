@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::math::Math, utils::Fraction};
+use crate::{components::math::Math, game::random_name, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -9,6 +9,7 @@ const TEST_SVG: Asset = asset!("/assets/test.svg");
 #[component]
 pub fn Hero() -> Element {
     let test_tex = (Fraction::new(3, 16) + Fraction::new(5, 16)).to_tex();
+    let name = random_name();
 
     rsx! {
         div {
@@ -63,7 +64,7 @@ pub fn Hero() -> Element {
                 p {
                     style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 4rem;",
                     "Recipe for:", br {},
-                    "Non-Newtonian Preservative"
+                    "{name}"
                 },
                 Math {
                     style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",

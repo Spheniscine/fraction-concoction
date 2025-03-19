@@ -1,6 +1,9 @@
 mod color;
 pub use color::*;
 
+mod names;
+pub use names::*;
+
 mod consts;
 pub use consts::*;
 
