@@ -1,6 +1,9 @@
 mod color;
 pub use color::*;
 
+mod difficulty;
+pub use difficulty::*;
+
 mod names;
 pub use names::*;
 

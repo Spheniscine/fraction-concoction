@@ -1,7 +1,7 @@
 use crate::utils::Fraction;
 use super::{Color, NUM_INGREDIENTS};
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Recipe {
     pub index: usize,
     pub name: String,
