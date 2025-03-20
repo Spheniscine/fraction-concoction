@@ -3,6 +3,6 @@ use super::Color;
 
 #[derive(Clone, Copy, Debug)]
 pub struct Dropper {
-    capacity: Fraction,
-    fill: Option<Color>
+    pub capacity: Fraction,
+    pub fill: Option<Color>
 }

@@ -2,9 +2,9 @@ use super::Color;
 
 #[derive(Clone, Copy, Debug, Hash, Eq, PartialEq)]
 pub enum Entity {
-    Dispenser { color: Color },
+    Dispenser { pub color: Color },
     Blender,
-    Beaker { index: usize },
-    Dropper { index: usize },
+    Beaker { pub index: usize },
+    Dropper { pub index: usize },
     Trash
 }

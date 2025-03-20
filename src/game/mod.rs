@@ -15,3 +15,6 @@ pub use dropper::*;
 
 mod beaker;
 pub use beaker::*;
+
+mod recipe;
+pub use recipe::*;

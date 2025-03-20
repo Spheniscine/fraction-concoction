@@ -3,6 +3,6 @@ use super::Color;
 
 #[derive(Clone, Copy, Debug)]
 pub struct Beaker {
-    amount: Fraction,
-    fill: Option<Color>
+    pub amount: Fraction,
+    pub fill: Option<Color>
 }
