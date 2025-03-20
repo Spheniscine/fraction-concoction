@@ -21,3 +21,6 @@ pub use beaker::*;
 
 mod recipe;
 pub use recipe::*;
+
+mod gamestate;
+pub use gamestate::*;
