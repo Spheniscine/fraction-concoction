@@ -3,9 +3,9 @@ use super::{Color, NUM_INGREDIENTS};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Ingredient {
-    amount: Fraction,
-    color: Color,
-    done: bool
+    pub amount: Fraction,
+    pub color: Color,
+    pub done: bool
 }
 
 #[derive(Clone, Debug)]
