@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, Dispenser}, game::{random_name, GameState}, utils::Fraction};
+use crate::{components::{math::Math, Dispenser}, game::{random_name, GameState, Entity, Color}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -20,48 +20,32 @@ pub fn Hero() -> Element {
             Dispenser { 
                 style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
                     display: flex; justify-content: center; align-items: center;",
-                entity: crate::game::Entity::Dispenser { color: crate::game::Color::Red },
+                entity: Entity::Dispenser { color: Color::Red },
                 game_state: state,
-            }
-            // div {
-            //     style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #f00;
-            //          display: flex; justify-content: center; align-items: center;",
-            //     Math {
-            //         style: "font-size: 7rem; color: #fff",
-            //         tex: r#"\Delta"#,
-            //     }
-            // },
-            div {
-                style: "position: absolute; left: 21.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #0f0;
-                     display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 7rem;",
-                    tex: r#"\Theta"#,
-                }
             },
-            div {
-                style: "position: absolute; left: 41.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #00f;
-                     display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 7rem; color: #fff",
-                    tex: r#"\Sigma"#,
-                }
+            Dispenser { 
+                style: "position: absolute; left: 21.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
+                    display: flex; justify-content: center; align-items: center;",
+                entity: Entity::Dispenser { color: Color::Green },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 61.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #ff0;
-                     display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 7rem;",
-                    tex: r#"\Psi"#,
-                }
+            Dispenser { 
+                style: "position: absolute; left: 41.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
+                    display: flex; justify-content: center; align-items: center;",
+                entity: Entity::Dispenser { color: Color::Blue },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 81.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #0ff;
+            Dispenser { 
+                style: "position: absolute; left: 61.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
+                    display: flex; justify-content: center; align-items: center;",
+                entity: Entity::Dispenser { color: Color::Yellow },
+                game_state: state,
+            },
+            Dispenser {
+                style: "position: absolute; left: 81.25rem; top: 2rem; width: 17.5rem; height: 40rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 7rem;",
-                    tex: r#"\Omega"#,
-                }
+                entity: Entity::Dispenser { color: Color::Cyan },
+                game_state: state,
             },
 
             // Recipe
