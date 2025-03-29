@@ -13,7 +13,7 @@ pub struct GameState {
 
 impl GameState {
     /// temporary, generate fixed values for testing
-    fn new_test() -> Self {
+    pub fn new_test() -> Self {
         Self {
             difficulty: Difficulty::Easy,
             recipe: Recipe { index: 0, name: random_name(), ingredients: [

@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::math::Math, game::random_name, utils::Fraction};
+use crate::{components::{math::Math, Dispenser}, game::{random_name, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -11,18 +11,26 @@ pub fn Hero() -> Element {
     let test_tex = (Fraction::new(3, 16) + Fraction::new(5, 16)).to_tex();
     let name = random_name();
 
+    let state = use_signal(|| GameState::new_test());
+
     rsx! {
         div {
             id: "hero",
             class: "select-none",
-            div {
-                style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #f00;
-                     display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 7rem; color: #fff",
-                    tex: r#"\Delta"#,
-                }
-            },
+            Dispenser { 
+                style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
+                    display: flex; justify-content: center; align-items: center;",
+                entity: crate::game::Entity::Dispenser { color: crate::game::Color::Red },
+                game_state: state,
+            }
+            // div {
+            //     style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #f00;
+            //          display: flex; justify-content: center; align-items: center;",
+            //     Math {
+            //         style: "font-size: 7rem; color: #fff",
+            //         tex: r#"\Delta"#,
+            //     }
+            // },
             div {
                 style: "position: absolute; left: 21.25rem; top: 2rem; width: 17.5rem; height: 40rem; background-color: #0f0;
                      display: flex; justify-content: center; align-items: center;",
