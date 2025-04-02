@@ -48,36 +48,12 @@ pub fn Hero() -> Element {
                 game_state: state,
             },
 
-            // Recipe
             Recipe {
                 style: "position: absolute; left: 1.25rem; top: 43rem; width: 53.5rem; height: 50rem; padding: 2rem; background-color: #ffc;
                      display: flex; flex-direction: column; justify-content: center; align-items: center; 
                      text-align: center;",
                 game_state: state,
             },
-
-            // div {
-            //     style: "position: absolute; left: 1.25rem; top: 43rem; width: 53.5rem; height: 50rem; padding: 2rem; background-color: #ffc;
-            //          display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            //          text-align: center;",
-            //     p {
-            //         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 4rem;",
-            //         "Recipe for:", br {},
-            //         "{name}"
-            //     },
-            //     Math {
-            //         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-            //         tex: r#"\large\frac{{1}}{{2}} \Omega"#,
-            //     },
-            //     Math {
-            //         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-            //         tex: r#"{test_tex} \Delta"#,
-            //     },
-            //     Math {
-            //         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-            //         tex: r#"\large\frac{{7}}{{13}} \Psi"#,
-            //     },
-            // },
 
 
             // Blender
