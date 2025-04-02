@@ -4,11 +4,11 @@ use super::{random_name, Beaker, Difficulty, Dropper, Entity, Ingredient, Recipe
 
 #[derive(Debug, Clone)]
 pub struct GameState {
-    difficulty: Difficulty,
-    recipe: Recipe,
-    beakers: [Option<Beaker>; NUM_BEAKERS],
-    droppers: [Dropper; NUM_DROPPERS],
-    selected: Option<Entity>,
+    pub difficulty: Difficulty,
+    pub recipe: Recipe,
+    pub beakers: [Option<Beaker>; NUM_BEAKERS],
+    pub droppers: [Dropper; NUM_DROPPERS],
+    pub selected: Option<Entity>,
 }
 
 impl GameState {

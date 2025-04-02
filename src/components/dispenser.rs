@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 use crate::{components::Math, game::{Entity, GameState}};
 
 #[component]
-pub fn Dispenser(entity: Entity, mut game_state: Signal<GameState>, style: String) -> Element {
+pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
     match entity {
         Entity::Dispenser { color } => {
             let background_color = color.to_html_color();

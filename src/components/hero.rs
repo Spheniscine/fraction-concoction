@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, Dispenser}, game::{random_name, GameState, Entity, Color}, utils::Fraction};
+use crate::{components::{math::Math, Dispenser, Recipe}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -49,28 +49,35 @@ pub fn Hero() -> Element {
             },
 
             // Recipe
-            div {
+            Recipe {
                 style: "position: absolute; left: 1.25rem; top: 43rem; width: 53.5rem; height: 50rem; padding: 2rem; background-color: #ffc;
                      display: flex; flex-direction: column; justify-content: center; align-items: center; 
                      text-align: center;",
-                p {
-                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 4rem;",
-                    "Recipe for:", br {},
-                    "{name}"
-                },
-                Math {
-                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-                    tex: r#"\large\frac{{1}}{{2}} \Omega"#,
-                },
-                Math {
-                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-                    tex: r#"{test_tex} \Delta"#,
-                },
-                Math {
-                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-                    tex: r#"\large\frac{{7}}{{13}} \Psi"#,
-                },
+                game_state: state,
             },
+
+            // div {
+            //     style: "position: absolute; left: 1.25rem; top: 43rem; width: 53.5rem; height: 50rem; padding: 2rem; background-color: #ffc;
+            //          display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            //          text-align: center;",
+            //     p {
+            //         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 4rem;",
+            //         "Recipe for:", br {},
+            //         "{name}"
+            //     },
+            //     Math {
+            //         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
+            //         tex: r#"\large\frac{{1}}{{2}} \Omega"#,
+            //     },
+            //     Math {
+            //         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
+            //         tex: r#"{test_tex} \Delta"#,
+            //     },
+            //     Math {
+            //         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
+            //         tex: r#"\large\frac{{7}}{{13}} \Psi"#,
+            //     },
+            // },
 
 
             // Blender
@@ -165,21 +172,5 @@ pub fn Hero() -> Element {
                 "TRASH"
             },
         }
-        // div {
-        //     id: "hero",
-        //     img { src: HEADER_SVG, id: "header" }
-        //     div { id: "links",
-        //         span {
-        //             class: "select-none",
-        //             dangerous_inner_html: html
-        //         }
-        //         a { href: "https://dioxuslabs.com/learn/0.6/", "📚 Learn Dioxus" }
-        //         a { href: "https://dioxuslabs.com/awesome", "🚀 Awesome Dioxus" }
-        //         a { href: "https://github.com/dioxus-community/", "📡 Community Libraries" }
-        //         a { href: "https://github.com/DioxusLabs/sdk", "⚙️ Dioxus Development Kit" }
-        //         a { href: "https://marketplace.visualstudio.com/items?itemName=DioxusLabs.dioxus", "💫 VSCode Extension" }
-        //         a { href: "https://discord.gg/XgGxMSkvUM", "👋 Community Discord" }
-        //     }
-        // }
     }
 }
