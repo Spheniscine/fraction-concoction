@@ -13,6 +13,9 @@ pub use recipe::Recipe;
 mod blender;
 pub use blender::Blender;
 
+mod beaker;
+pub use beaker::Beaker;
+
 mod dropper;
 pub use dropper::Dropper;
 

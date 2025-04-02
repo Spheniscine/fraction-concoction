@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, Blender, Dispenser, Dropper, Recipe, Trash}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
+use crate::{components::{math::Math, Beaker, Blender, Dispenser, Dropper, Recipe, Trash}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -65,32 +65,25 @@ pub fn Hero() -> Element {
             },
 
             // Beakers
-            div {
-                style: "position: absolute; left: 2.5rem; top: 99rem; width: 23rem; height: 22.5rem; background-color: #0ff;
+            Beaker {
+                style: "position: absolute; left: 2.5rem; top: 99rem; width: 23rem; height: 22.5rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem;",
-                    tex: r#"\large\frac{{1}}{{2}} \Omega"#,
-                }
+                entity: Entity::Beaker { index: 0 },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 37.5rem; top: 99rem; width: 23rem; height: 22.5rem; background-color: #f00;
+            Beaker {
+                style: "position: absolute; left: 37.5rem; top: 99rem; width: 23rem; height: 22.5rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem; color: #fff",
-                    tex: r#"2 \large\frac{{1113}}{{2224}} \Delta"#,
-                }
+                entity: Entity::Beaker { index: 1 },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 74.5rem; top: 99rem; width: 23rem; height: 22.5rem; background-color: #ff0;
+            Beaker {
+                style: "position: absolute; left: 74.5rem; top: 99rem; width: 23rem; height: 22.5rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem;",
-                    tex: r#"\large\frac{{7}}{{13}} \Psi"#,
-                }
+                entity: Entity::Beaker { index: 2 },
+                game_state: state,
             },
 
-            // Droppers
             Dropper {
                 style: "position: absolute; left: 2rem; top: 123rem; width: 15rem; height: 24rem;
                      display: flex; justify-content: center; align-items: center;",
