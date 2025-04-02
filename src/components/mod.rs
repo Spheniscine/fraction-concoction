@@ -9,3 +9,6 @@ pub use dispenser::Dispenser;
 
 mod recipe;
 pub use recipe::Recipe;
+
+mod blender;
+pub use blender::Blender;

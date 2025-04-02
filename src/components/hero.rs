@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, Dispenser, Recipe}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
+use crate::{components::{math::Math, Blender, Dispenser, Recipe}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -56,17 +56,15 @@ pub fn Hero() -> Element {
             },
 
 
-            // Blender
-            div {
+            Blender {
                 style: "position: absolute; left: 61.25rem; top: 43rem; width: 33rem; height: 50rem; padding: 2rem; background-color: #ccc;
                      display: flex; flex-direction: column; justify-content: center; align-items: center; 
                      text-align: center;",
-                p {
-                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-                    "BLENDER"
-                }
+                entity: Entity::Blender,
+                game_state: state,
             },
 
+            // Beakers
             div {
                 style: "position: absolute; left: 2.5rem; top: 99rem; width: 23rem; height: 22.5rem; background-color: #0ff;
                      display: flex; justify-content: center; align-items: center;",
@@ -92,7 +90,7 @@ pub fn Hero() -> Element {
                 }
             },
 
-
+            // Droppers
             div {
                 style: "position: absolute; left: 2rem; top: 123rem; width: 15rem; height: 24rem; background-color: #ccc;
                      display: flex; justify-content: center; align-items: center;",
@@ -142,6 +140,7 @@ pub fn Hero() -> Element {
                 }
             },
 
+            // Trash
             div {
                 style: "position: absolute; left: 55rem; top: 127rem; width: 40rem; height: 45rem; background-color: #ccc;
                      display: flex; justify-content: center; align-items: center; font-size: 5rem;",
