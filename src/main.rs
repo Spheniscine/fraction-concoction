@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate extension_traits;
+
 use dioxus::prelude::*;
 
 use components::Hero;

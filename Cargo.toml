@@ -13,6 +13,7 @@ rand = "0.9.0"
 katex = { version = "0.4.6", default-features = false, features = ["wasm-js"] }
 strum = "0.27.1"
 strum_macros = "0.27.1"
+extension-traits = "2.0.0"
 
 [features]
 default = ["web"]

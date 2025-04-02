@@ -13,5 +13,8 @@ pub use recipe::Recipe;
 mod blender;
 pub use blender::Blender;
 
+mod dropper;
+pub use dropper::Dropper;
+
 mod trash;
 pub use trash::Trash;

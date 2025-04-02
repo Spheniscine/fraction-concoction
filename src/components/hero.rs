@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, Blender, Dispenser, Recipe, Trash}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
+use crate::{components::{math::Math, Blender, Dispenser, Dropper, Recipe, Trash}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -91,53 +91,41 @@ pub fn Hero() -> Element {
             },
 
             // Droppers
-            div {
-                style: "position: absolute; left: 2rem; top: 123rem; width: 15rem; height: 24rem; background-color: #ccc;
+            Dropper {
+                style: "position: absolute; left: 2rem; top: 123rem; width: 15rem; height: 24rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem;",
-                    tex: r#"\large\frac{{2}}{{13}}"#,
-                }
+                entity: Entity::Dropper { index: 0 },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 19rem; top: 123rem; width: 15rem; height: 24rem; background-color: #ccc;
+            Dropper {
+                style: "position: absolute; left: 19rem; top: 123rem; width: 15rem; height: 24rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem;",
-                    tex: r#"\large\frac{{1}}{{2}}"#,
-                }
+                entity: Entity::Dropper { index: 1 },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 36rem; top: 123rem; width: 15rem; height: 24rem; background-color: #ccc;
+            Dropper {
+                style: "position: absolute; left: 36rem; top: 123rem; width: 15rem; height: 24rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem;",
-                    tex: r#"\large\frac{{1}}{{4}}"#,
-                }
+                entity: Entity::Dropper { index: 2 },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 2rem; top: 151rem; width: 15rem; height: 24rem; background-color: #ccc;
+            Dropper {
+                style: "position: absolute; left: 2rem; top: 151rem; width: 15rem; height: 24rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem;",
-                    tex: r#"1"#,
-                }
+                entity: Entity::Dropper { index: 3 },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 19rem; top: 151rem; width: 15rem; height: 24rem; background-color: #ccc;
+            Dropper {
+                style: "position: absolute; left: 19rem; top: 151rem; width: 15rem; height: 24rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem;",
-                    tex: r#"\large\frac{{5}}{{13}}"#,
-                }
+                entity: Entity::Dropper { index: 4 },
+                game_state: state,
             },
-            div {
-                style: "position: absolute; left: 36rem; top: 151rem; width: 15rem; height: 24rem; background-color: #ccc;
+            Dropper {
+                style: "position: absolute; left: 36rem; top: 151rem; width: 15rem; height: 24rem;
                      display: flex; justify-content: center; align-items: center;",
-                Math {
-                    style: "font-size: 5rem;",
-                    tex: r#"\large\frac{{3}}{{13}}"#,
-                }
+                entity: Entity::Dropper { index: 5 },
+                game_state: state,
             },
 
 
