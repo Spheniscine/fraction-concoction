@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, Blender, Dispenser, Recipe}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
+use crate::{components::{math::Math, Blender, Dispenser, Recipe, Trash}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -140,11 +140,12 @@ pub fn Hero() -> Element {
                 }
             },
 
-            // Trash
-            div {
+
+            Trash {
                 style: "position: absolute; left: 55rem; top: 127rem; width: 40rem; height: 45rem; background-color: #ccc;
                      display: flex; justify-content: center; align-items: center; font-size: 5rem;",
-                "TRASH"
+                entity: Entity::Trash,
+                game_state: state,
             },
         }
     }

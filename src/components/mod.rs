@@ -12,3 +12,6 @@ pub use recipe::Recipe;
 
 mod blender;
 pub use blender::Blender;
+
+mod trash;
+pub use trash::Trash;
