@@ -11,6 +11,7 @@ pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -
             let tex = color.to_tex_symbol();
             rsx! {
                 div {
+                    onclick: move |_| game_state.write().click_entity(entity),
                     style: "background-color: {background_color}; {style}",
                     Math {
                         style: "font-size: 7rem; color: {text_color}",

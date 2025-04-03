@@ -8,6 +8,7 @@ pub fn Blender(entity: Entity, game_state: Signal<GameState>, style: String) -> 
         Entity::Blender => {
             rsx! {
                 div {
+                    onclick: move |_| game_state.write().click_entity(entity),
                     style,
                     p {
                         style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",

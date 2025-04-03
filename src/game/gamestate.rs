@@ -66,4 +66,17 @@ impl GameState {
             // selected: Some(Entity::Beaker { index: 1 }),
         }
     }
+
+
+    pub fn click_entity(&mut self, entity: Entity) {
+        match entity {
+            Entity::Dropper { index } => {
+                self.selected = Some(entity);
+            }
+            Entity::Beaker { index } => {
+                self.selected = Some(entity);
+            }
+            _ => {}
+        }
+    }
 }

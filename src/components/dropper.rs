@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 use crate::{components::Math, game::{Entity, GameState, OptionColorExt, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR}};
 
 #[component]
-pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
+pub fn Dropper(entity: Entity, mut game_state: Signal<GameState>, style: String) -> Element {
     let state = game_state();
     match entity {
         Entity::Dropper { index } => {
@@ -18,6 +18,7 @@ pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> 
             };
             rsx! {
                 div {
+                    onclick: move |_| game_state.write().click_entity(entity),
                     style: "background-color: {background_color}; {selected_border} {style}",
                     Math {
                         style: "font-size: 5rem; color: {text_color}",

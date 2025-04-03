@@ -1,9 +1,9 @@
 use dioxus::prelude::*;
 
-use crate::{components::Math, game::{Entity, GameState, OptionColorExt, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR}};
+use crate::{components::Math, game::{self, Entity, GameState, OptionColorExt, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR}};
 
 #[component]
-pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
+pub fn Beaker(entity: Entity, mut game_state: Signal<GameState>, style: String) -> Element {
     let state = game_state();
     match entity {
         Entity::Beaker { index } => {
@@ -19,6 +19,7 @@ pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> E
                 };
                 rsx! {
                     div {
+                        onclick: move |_| game_state.write().click_entity(entity),
                         style: "background-color: {background_color}; {selected_border} {style}",
                         Math {
                             style: "font-size: 5rem; color: {text_color}",
