@@ -62,7 +62,8 @@ impl GameState {
                     fill: None,
                 },
             ],
-            selected: None,
+            selected: None, 
+            // selected: Some(Entity::Beaker { index: 1 }),
         }
     }
 }
