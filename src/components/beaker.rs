@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 use crate::{components::Math, game::{self, Entity, GameState, OptionColorExt, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR}};
 
 #[component]
-pub fn Beaker(entity: Entity, mut game_state: Signal<GameState>, style: String) -> Element {
+pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
     let state = game_state();
     match entity {
         Entity::Beaker { index } => {
