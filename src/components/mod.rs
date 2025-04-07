@@ -21,3 +21,6 @@ pub use dropper::Dropper;
 
 mod trash;
 pub use trash::Trash;
+
+mod audio_preloader;
+pub use audio_preloader::AudioPreloader;

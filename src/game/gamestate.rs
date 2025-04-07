@@ -1,14 +1,15 @@
 use crate::utils::Fraction;
 
-use super::{random_name, Beaker, Color, Difficulty, Dropper, Entity, Ingredient, Recipe, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS};
+use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS};
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct GameState {
     pub difficulty: Difficulty,
     pub recipe: Recipe,
     pub beakers: [Option<Beaker>; NUM_BEAKERS],
     pub droppers: [Dropper; NUM_DROPPERS],
     pub selected: Option<Entity>,
+    pub feedback: FeedbackImpl,
 }
 
 impl GameState {
@@ -64,6 +65,7 @@ impl GameState {
             ],
             selected: None, 
             // selected: Some(Entity::Beaker { index: 1 }),
+            feedback: FeedbackImpl
         }
     }
 
@@ -73,10 +75,12 @@ impl GameState {
             None => {
                 match entity {
                     Entity::Dropper { index } => {
+                        self.feedback.play_audio(Audio::Clink);
                         self.selected = Some(entity);
                     }
                     Entity::Beaker { index } => {
                         if self.beakers[index].is_some_and(|b| b.fill.is_some()) {
+                            self.feedback.play_audio(Audio::Clink);
                             self.selected = Some(entity);
                         }
                     }
@@ -88,6 +92,7 @@ impl GameState {
                 match entity {
                     Entity::Dispenser { color } => {
                         if self.droppers[dropper_index].fill.is_none() {
+                            self.feedback.play_audio(Audio::Pour1);
                             self.droppers[dropper_index].fill = Some(color);
                         }
                     }
@@ -96,30 +101,38 @@ impl GameState {
                         let dropper = self.droppers[dropper_index];
                         if let Some(color) = dropper.fill {
                             if beaker.fill.is_none_or(|c| c == color) {
+                                self.feedback.play_audio(Audio::Pour2);
                                 self.droppers[dropper_index].fill = None;
                                 let beaker = self.beakers[beaker_index].as_mut().unwrap();
                                 beaker.amount += dropper.capacity;
                                 beaker.fill = Some(color);
+                            } else {
+                                self.feedback.play_audio(Audio::Error);
                             }
                         } else {
                             if let Some(color) = beaker.fill {
                                 if beaker.amount >= dropper.capacity {
+                                    self.feedback.play_audio(Audio::Pour1);
                                     self.droppers[dropper_index].fill = Some(color);
                                     let beaker = self.beakers[beaker_index].as_mut().unwrap();
                                     beaker.amount -= dropper.capacity;
                                     if beaker.amount == Fraction::zero() {
                                         beaker.fill = None;
                                     }
+                                } else {
+                                    self.feedback.play_audio(Audio::Error);
                                 }
                             }
                         }
                     }
                     Entity::Trash => {
                         if self.droppers[dropper_index].fill.is_some() {
+                            self.feedback.play_audio(Audio::Drain);
                             self.droppers[dropper_index].fill = None;
                         }
                     }
                     Entity::Dropper { index: other_index } => {
+                        self.feedback.play_audio(Audio::Clink);
                         if dropper_index == other_index {
                             self.selected = None;
                         } else {
@@ -137,6 +150,7 @@ impl GameState {
                 };
                 match entity {
                     Entity::Beaker { index: other_index } => {
+                        self.feedback.play_audio(Audio::Clink);
                         if beaker_index == other_index {
                             self.selected = None;
                         } else {
@@ -150,6 +164,7 @@ impl GameState {
                     // }
                     Entity::Trash => {
                         if beaker.fill.is_some() {
+                            self.feedback.play_audio(Audio::Drain);
                             let beaker = self.beakers[beaker_index].as_mut().unwrap();
                             beaker.amount = Fraction::zero();
                             beaker.fill = None;
@@ -161,9 +176,16 @@ impl GameState {
                             let ingredient = self.recipe.ingredients[i];
                             !ingredient.done && ingredient.amount == beaker.amount && Some(ingredient.color) == beaker.fill
                         }) {
+                            self.feedback.play_audio(Audio::Pour2);
                             self.recipe.ingredients[i].done = true;
                             self.beakers[beaker_index] = None;
                             self.selected = None;
+
+                            if self.is_won() {
+                                self.feedback.play_audio(Audio::Blend);
+                            }
+                        } else {
+                            self.feedback.play_audio(Audio::Error);
                         }
                     }
                     _ => {}
@@ -171,5 +193,9 @@ impl GameState {
             }
             _ => {}
         }
+    }
+
+    pub fn is_won(&self) -> bool {
+        self.recipe.ingredients.iter().all(|i| i.done)
     }
 }

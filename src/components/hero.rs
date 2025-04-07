@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, Beaker, Blender, Dispenser, Dropper, Recipe, Trash}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
+use crate::{components::{math::Math, AudioPreloader, Beaker, Blender, Dispenser, Dropper, Recipe, Trash}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -14,6 +14,7 @@ pub fn Hero() -> Element {
     let state = use_signal(|| GameState::new_test());
 
     rsx! {
+        AudioPreloader {  }
         div {
             id: "hero",
             class: "select-none",
