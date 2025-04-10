@@ -2,6 +2,8 @@ use dioxus::prelude::*;
 
 use crate::{components::Math, game::{Entity, GameState}};
 
+const DISPENSER_SVG: Asset = asset!("/assets/images/dispenser.svg");
+
 #[component]
 pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
     match entity {
@@ -12,10 +14,19 @@ pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -
             rsx! {
                 div {
                     onclick: move |_| game_state.write().click_entity(entity),
-                    style: "background-color: {background_color}; {style}",
-                    Math {
-                        style: "font-size: 7rem; color: {text_color}",
-                        tex: {tex},
+                    style: "{style}",
+                    img { 
+                        src: DISPENSER_SVG,
+                        style: "position: absolute; margin: 0 auto; width: 18rem",
+                    }
+
+                    div {
+                        style: "background-color: {background_color}; position: absolute; top: 8.5rem; padding: 2rem; 
+                        border-radius: 1rem",
+                        Math {
+                            style: "font-size: 7rem; color: {text_color}",
+                            tex: {tex},
+                        }
                     }
                 }
             }

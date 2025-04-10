@@ -19,31 +19,31 @@ pub fn Hero() -> Element {
             id: "hero",
             class: "select-none",
             Dispenser { 
-                style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
+                style: "position: absolute; left: 1.25rem; top: 2rem; width: 17.5rem; height: 36rem; 
                     display: flex; justify-content: center; align-items: center;",
                 entity: Entity::Dispenser { color: Color::Red },
                 game_state: state,
             },
             Dispenser { 
-                style: "position: absolute; left: 21.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
+                style: "position: absolute; left: 21.25rem; top: 2rem; width: 17.5rem; height: 36rem; 
                     display: flex; justify-content: center; align-items: center;",
                 entity: Entity::Dispenser { color: Color::Green },
                 game_state: state,
             },
             Dispenser { 
-                style: "position: absolute; left: 41.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
+                style: "position: absolute; left: 41.25rem; top: 2rem; width: 17.5rem; height: 36rem; 
                     display: flex; justify-content: center; align-items: center;",
                 entity: Entity::Dispenser { color: Color::Blue },
                 game_state: state,
             },
             Dispenser { 
-                style: "position: absolute; left: 61.25rem; top: 2rem; width: 17.5rem; height: 40rem; 
+                style: "position: absolute; left: 61.25rem; top: 2rem; width: 17.5rem; height: 36rem; 
                     display: flex; justify-content: center; align-items: center;",
                 entity: Entity::Dispenser { color: Color::Yellow },
                 game_state: state,
             },
             Dispenser {
-                style: "position: absolute; left: 81.25rem; top: 2rem; width: 17.5rem; height: 40rem;
+                style: "position: absolute; left: 81.25rem; top: 2rem; width: 17.5rem; height: 36rem;
                      display: flex; justify-content: center; align-items: center;",
                 entity: Entity::Dispenser { color: Color::Cyan },
                 game_state: state,
