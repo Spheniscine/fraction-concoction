@@ -150,11 +150,12 @@ impl GameState {
                 };
                 match entity {
                     Entity::Beaker { index: other_index } => {
-                        self.feedback.play_audio(Audio::Clink);
                         if beaker_index == other_index {
+                            self.feedback.play_audio(Audio::Clink);
                             self.selected = None;
                         } else {
                             if self.beakers[other_index].is_some_and(|b| b.fill.is_some()) {
+                                self.feedback.play_audio(Audio::Clink);
                                 self.selected = Some(entity);
                             }
                         }

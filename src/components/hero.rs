@@ -50,7 +50,7 @@ pub fn Hero() -> Element {
             },
 
             Recipe {
-                style: "position: absolute; left: 1.25rem; top: 43rem; width: 53.5rem; height: 50rem; padding: 2rem; background-color: #ffc;
+                style: "position: absolute; left: 1.25rem; top: 41rem; width: 53.5rem; height: 50rem; padding: 2rem; background-color: #ffc;
                      display: flex; flex-direction: column; justify-content: center; align-items: center; 
                      text-align: center;",
                 game_state: state,
@@ -58,7 +58,7 @@ pub fn Hero() -> Element {
 
 
             Blender {
-                style: "position: absolute; left: 61.25rem; top: 43rem; width: 33rem; height: 50rem; padding: 2rem; background-color: #ccc;
+                style: "position: absolute; left: 61.25rem; top: 41rem; width: 33rem; height: 50rem; padding: 2rem; background-color: #ccc;
                      display: flex; flex-direction: column; justify-content: center; align-items: center; 
                      text-align: center;",
                 entity: Entity::Blender,
@@ -67,19 +67,19 @@ pub fn Hero() -> Element {
 
             // Beakers
             Beaker {
-                style: "position: absolute; left: 2.5rem; top: 99rem; width: 23rem; height: 22.5rem;
+                style: "position: absolute; left: 2.5rem; top: 98rem; width: 25rem; height: 22.5rem;
                      display: flex; justify-content: center; align-items: center;",
                 entity: Entity::Beaker { index: 0 },
                 game_state: state,
             },
             Beaker {
-                style: "position: absolute; left: 37.5rem; top: 99rem; width: 23rem; height: 22.5rem;
+                style: "position: absolute; left: 37.5rem; top: 98rem; width: 25rem; height: 22.5rem;
                      display: flex; justify-content: center; align-items: center;",
                 entity: Entity::Beaker { index: 1 },
                 game_state: state,
             },
             Beaker {
-                style: "position: absolute; left: 74.5rem; top: 99rem; width: 23rem; height: 22.5rem;
+                style: "position: absolute; left: 74.5rem; top: 98rem; width: 25rem; height: 22.5rem;
                      display: flex; justify-content: center; align-items: center;",
                 entity: Entity::Beaker { index: 2 },
                 game_state: state,

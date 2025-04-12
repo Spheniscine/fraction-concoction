@@ -21,7 +21,7 @@ pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                     onclick: move |_| game_state.write().click_entity(entity),
                     style: "background-color: {background_color}; {selected_border} {style}",
                     Math {
-                        style: "font-size: 5rem; color: {text_color}",
+                        style: "font-size: 4.5rem; color: {text_color}",
                         tex: {tex},
                     }
                 }

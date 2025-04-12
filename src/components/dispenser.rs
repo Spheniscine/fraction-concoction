@@ -14,7 +14,7 @@ pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -
             rsx! {
                 div {
                     onclick: move |_| game_state.write().click_entity(entity),
-                    style: "{style}",
+                    style: {style},
                     img { 
                         src: DISPENSER_SVG,
                         style: "position: absolute; margin: 0 auto; width: 18rem",
@@ -22,7 +22,7 @@ pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -
 
                     div {
                         style: "background-color: {background_color}; position: absolute; top: 8.5rem; padding: 2rem; 
-                        border-radius: 1rem",
+                        left: 3.2rem; width: 7.5rem; border-radius: 1rem; text-align: center",
                         Math {
                             style: "font-size: 7rem; color: {text_color}",
                             tex: {tex},
