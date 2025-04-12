@@ -15,14 +15,14 @@ pub fn Recipe(game_state: Signal<GameState>, style: String) -> Element {
         div {
             style,
             p {
-                style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 4rem;",
+                style: "margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 4rem;",
                 "Recipe for:", br {},
                 {name}
             },
 
             for (tex, color) in ingredients_tex {
                 Math {
-                    style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem; color: {color}",
+                    style: "margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 5rem; color: {color}",
                     tex,
                 },
             }
