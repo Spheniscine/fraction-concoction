@@ -2,6 +2,8 @@ use dioxus::prelude::*;
 
 use crate::{components::Math, game::{Entity, GameState, OptionColorExt, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR}};
 
+const DROPPER_BACK_SVG: Asset = asset!("/assets/images/test-tube.svg");
+
 #[component]
 pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
     let state = game_state();
@@ -11,21 +13,48 @@ pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> 
             let background_color = dropper.fill.to_html_color();
             let text_color = dropper.fill.contrast_html_color();
             let tex = dropper.capacity.to_tex();
-            let selected_border = if state.selected == Some(entity) {
-                "border-style: solid; border-width: 0.7rem; border-color: #fc0;"
+
+            let selected_background = if state.selected == Some(entity) {
+                "filter: drop-shadow(0 0 2rem #ff0);"
             } else {
                 ""
             };
             rsx! {
                 div {
                     onclick: move |_| game_state.write().click_entity(entity),
-                    style: "background-color: {background_color}; {selected_border} {style}",
-                    Math {
-                        style: "font-size: 4.5rem; color: {text_color}",
-                        tex: {tex},
+                    style: "{style}",
+
+                    img { 
+                        src: DROPPER_BACK_SVG,
+                        style: "position: absolute; margin: 0 auto; width: 15rem; height: 28rem; {selected_background}",
+                    }
+
+                    div {
+                        style: "background-color: {background_color}; position: absolute; top: 6.1rem; left: 3.4rem; 
+                        height: 18.2rem; width: 8.3rem; border-radius: 0 0 5rem 5rem; 
+                        line-height: 18.2rem; text-align: center;",
+                        Math {
+                            style: "font-size: 4.5rem; color: {text_color}",
+                            tex: {tex},
+                        }
                     }
                 }
             }
+            // let selected_border = if state.selected == Some(entity) {
+            //     "border-style: solid; border-width: 0.7rem; border-color: #fc0;"
+            // } else {
+            //     ""
+            // };
+            // rsx! {
+            //     div {
+            //         onclick: move |_| game_state.write().click_entity(entity),
+            //         style: "background-color: {background_color}; {selected_border} {style}",
+            //         Math {
+            //             style: "font-size: 4.5rem; color: {text_color}",
+            //             tex: {tex},
+            //         }
+            //     }
+            // }
         },
         _ => {
             rsx! {

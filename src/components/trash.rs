@@ -2,6 +2,8 @@ use dioxus::prelude::*;
 
 use crate::{components::Math, game::{Entity, GameState}};
 
+const TRASH_SVG: Asset = asset!("/assets/images/sink.svg");
+
 #[component]
 pub fn Trash(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
     match entity {
@@ -10,9 +12,8 @@ pub fn Trash(entity: Entity, game_state: Signal<GameState>, style: String) -> El
                 div {
                     onclick: move |_| game_state.write().click_entity(entity),
                     style,
-                    p {
-                        style: "margin-top: 2rem; margin-bottom: 2rem; font-size: 5rem;",
-                        "TRASH"
+                    img {
+                        src: TRASH_SVG,
                     }
                 },
             }

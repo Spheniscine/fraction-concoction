@@ -50,15 +50,16 @@ pub fn Hero() -> Element {
             },
 
             Recipe {
-                style: "position: absolute; left: 1.25rem; top: 41rem; width: 53.5rem; height: 50rem; padding: 2rem; background-color: #ffc;
-                     display: flex; flex-direction: column; justify-content: center; align-items: center; 
+                style: "position: absolute; left: 3rem; top: 41rem; width: 52rem; height: 50rem; padding: 2rem;
+                    background-color: #ffc;
+                     display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 1rem;
                      text-align: center;",
                 game_state: state,
             },
 
 
             Blender {
-                style: "position: absolute; left: 61.25rem; top: 41rem; width: 33rem; height: 50rem; padding: 2rem; background-color: #ccc;
+                style: "position: absolute; left: 61.25rem; top: 41rem; width: 33rem; height: 50rem; padding: 2rem;
                      display: flex; flex-direction: column; justify-content: center; align-items: center; 
                      text-align: center;",
                 entity: Entity::Blender,
@@ -124,7 +125,7 @@ pub fn Hero() -> Element {
 
 
             Trash {
-                style: "position: absolute; left: 55rem; top: 127rem; width: 40rem; height: 45rem; background-color: #ccc;
+                style: "position: absolute; left: 55rem; top: 123rem; width: 40rem; height: 40rem;
                      display: flex; justify-content: center; align-items: center; font-size: 5rem;",
                 entity: Entity::Trash,
                 game_state: state,
