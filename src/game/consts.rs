@@ -8,3 +8,5 @@ pub const NUM_DROPPERS: usize = 6;
 
 pub const NEUTRAL_HTML_COLOR: &str = "#ccc";
 pub const NEUTRAL_CONTRAST_COLOR: &str = "#000";
+
+pub const PRIME_DENOMS: &[i64] = &[5, 7, 11, 13, 17, 19, 23, 29];

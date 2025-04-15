@@ -1,6 +1,8 @@
+use std::time::Duration;
+
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, AudioPreloader, Beaker, Blender, Dispenser, Dropper, Recipe, Trash}, game::{random_name, Color, Entity, GameState}, utils::Fraction};
+use crate::{components::{math::Math, AudioPreloader, Beaker, Blender, Dispenser, Dropper, Recipe, Trash}, game::{random_name, Color, Difficulty, Entity, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -11,7 +13,11 @@ pub fn Hero() -> Element {
     let test_tex = (Fraction::new(3, 16) + Fraction::new(5, 16)).to_tex();
     let name = random_name();
 
-    let state = use_signal(|| GameState::new_test());
+    let mut state = use_signal(|| {
+        let mut state = GameState::new_test();
+        state.generate(Difficulty::Easy);
+        state
+    });
 
     rsx! {
         AudioPreloader {  }

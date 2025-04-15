@@ -11,6 +11,7 @@ pub fn Recipe(game_state: Signal<GameState>, style: String) -> Element {
         let color = if ingredient.done {"#ccc"} else {"#000"};
         (tex, color)
     });
+    let recipe_index = state.recipe.index + 1;
     rsx! {
         div {
             style,
@@ -26,6 +27,11 @@ pub fn Recipe(game_state: Signal<GameState>, style: String) -> Element {
                     tex,
                 },
             }
+
+            p {
+                style: "position: absolute; top: 1.5rem; right: 1.5rem; font-size: 3rem; font-style: italic",
+                "p. {recipe_index}"
+            },
         }
     }
 }

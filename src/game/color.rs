@@ -1,8 +1,8 @@
-use strum_macros::{EnumCount, EnumIter};
+use strum_macros::{EnumCount, EnumIter, VariantArray};
 
 use super::{NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR};
 
-#[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq, VariantArray)]
 pub enum Color {
     Red,
     Green,

@@ -1,6 +1,10 @@
+use arrayvec::ArrayVec;
+use rand::{rng, seq::{IndexedRandom, SliceRandom}, Rng};
+use strum::{EnumCount, IntoEnumIterator, VariantArray};
+
 use crate::utils::Fraction;
 
-use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS};
+use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
 
 #[derive(Clone)]
 pub struct GameState {
@@ -13,6 +17,66 @@ pub struct GameState {
 }
 
 impl GameState {
+    pub fn generate(&mut self, difficulty: Difficulty) {
+        self.difficulty = difficulty;
+        self.selected = None;
+        self.recipe.name = random_name();
+        self.beakers = [
+            Some(Beaker { amount: Fraction::zero(), fill: None }); NUM_BEAKERS
+        ];
+        let mut rng = rng();
+        match difficulty {
+            Difficulty::Easy => {
+                let prime1 = *PRIME_DENOMS.choose(&mut rng).unwrap();
+                let prime2 = loop {
+                    let x = *PRIME_DENOMS.choose(&mut rng).unwrap();
+                    if x != prime1 { break x; }
+                };
+
+                let mut recipe_amounts = ArrayVec::<Fraction, NUM_INGREDIENTS>::new();
+                let mut dropper_amounts = ArrayVec::<Fraction, NUM_DROPPERS>::new();
+
+                for p in [prime1, prime2, prime2] {
+                    let mut a = rng.random_range(1..p);
+                    let mut b = rng.random_range(1..p);
+
+                    if a > b { std::mem::swap(&mut a, &mut b); }
+
+                    recipe_amounts.push(Fraction::new(b, p));
+                    dropper_amounts.push(Fraction::new(a, p));
+                    dropper_amounts.push(Fraction::new(b - a, p));
+                }
+
+                recipe_amounts.shuffle(&mut rng);
+                dropper_amounts.shuffle(&mut rng);
+
+                let mut colors = Color::iter().collect::<ArrayVec<Color, {Color::COUNT}>>();
+                colors.partial_shuffle(&mut rng, NUM_INGREDIENTS);
+
+                for i in 0..NUM_INGREDIENTS {
+                    self.recipe.ingredients[i] = Ingredient {
+                        amount: recipe_amounts[i],
+                        color: colors[i],
+                        done: false,
+                    }
+                }
+
+                for i in 0..NUM_DROPPERS {
+                    self.droppers[i] = Dropper { capacity: dropper_amounts[i], fill: None  }
+                }
+            },
+            Difficulty::Medium => todo!(),
+            Difficulty::Hard => todo!(),
+        }
+    }
+
+    pub fn advance(&mut self) {
+        if self.is_won() {
+            self.generate(self.difficulty);
+            self.recipe.index += 1;
+        }
+    } 
+
     /// temporary, generate fixed values for testing
     pub fn new_test() -> Self {
         Self {
@@ -35,7 +99,7 @@ impl GameState {
                 },
             ] },
             beakers: [
-                Some(Beaker { amount: Fraction::zero(), fill: None }); 3
+                Some(Beaker { amount: Fraction::zero(), fill: None }); NUM_BEAKERS
             ],
             droppers: [
                 Dropper {
