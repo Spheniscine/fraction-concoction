@@ -9,9 +9,10 @@ const BLENDER_SVG: Asset = asset!("/assets/images/blender.svg");
 
 #[component]
 pub fn Blender(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
-    let advance_timer = use_coroutine(move |mut rx: UnboundedReceiver<()>| async move {
+    let advance_timer = use_coroutine(move |mut rx: UnboundedReceiver<usize>| async move {
         let duration = Duration::from_secs(3);
-        while let Some(_) = rx.next().await {
+        while let Some(index) = rx.next().await {
+            if index != game_state.read().recipe.index { continue; }
             async_std::task::sleep(duration).await;
             game_state.write().advance();
         }
@@ -27,7 +28,7 @@ pub fn Blender(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                     onclick: move |_| {
                         game_state.write().click_entity(entity);
                         if game_state.read().is_won() {
-                            advance_timer.send(());
+                            advance_timer.send(game_state.read().recipe.index);
                         }
                     },
                     style,
