@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, AudioPreloader, Beaker, Blender, Dispenser, Dropper, Recipe, Trash}, game::{random_name, Color, Difficulty, Entity, GameState}, utils::Fraction};
+use crate::{components::{math::Math, AudioPreloader, Beaker, Blender, Dispenser, Dropper, HelpIcon, Recipe, SettingsIcon, Trash}, game::{random_name, Color, Difficulty, Entity, GameState}, utils::Fraction};
 
 
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
@@ -135,6 +135,14 @@ pub fn Hero() -> Element {
                      display: flex; justify-content: center; align-items: center; font-size: 5rem;",
                 entity: Entity::Trash,
                 game_state: state,
+            },
+
+            HelpIcon {  
+                style: "position: absolute; left: 75rem; top: 164rem; width: 7rem; height: 11rem;",
+            },
+
+            SettingsIcon {  
+                style: "position: absolute; left: 86rem; top: 164.7rem; width: 10rem; height: 10rem;",
             },
         }
     }
