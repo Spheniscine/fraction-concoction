@@ -24,6 +24,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
                 "Audio: ",
                 input {
                     r#type: "checkbox",
+                    style: "width: 4rem; height: 4rem;",
                     checked: state.read().audio_state,
                     onchange: audio_settings_changed
                 }
@@ -32,6 +33,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             p { 
                 button {
                     r#type: "button",
+                    style: "font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
                     onclick: close,
                     "Close"
                 }
