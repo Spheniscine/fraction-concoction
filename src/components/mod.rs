@@ -24,3 +24,12 @@ pub use trash::Trash;
 
 mod audio_preloader;
 pub use audio_preloader::AudioPreloader;
+
+mod help_icon;
+pub use help_icon::HelpIcon;
+
+mod settings_icon;
+pub use settings_icon::SettingsIcon;
+
+mod settings;
+pub use settings::Settings;

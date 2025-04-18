@@ -4,7 +4,7 @@ use strum::{EnumCount, IntoEnumIterator, VariantArray};
 
 use crate::utils::Fraction;
 
-use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
+use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
 
 #[derive(Clone)]
 pub struct GameState {
@@ -14,6 +14,7 @@ pub struct GameState {
     pub droppers: [Dropper; NUM_DROPPERS],
     pub selected: Option<Entity>,
     pub feedback: FeedbackImpl,
+    pub show_settings: bool,
 }
 
 impl GameState {
@@ -77,23 +78,23 @@ impl GameState {
         }
     } 
 
-    /// temporary, generate fixed values for testing
+    /// generate fixed values for testing
     pub fn new_test() -> Self {
         Self {
             difficulty: Difficulty::Easy,
-            recipe: Recipe { index: 0, name: random_name(), ingredients: [
+            recipe: Recipe { index: 0, name: String::from("Aqua Fortis"), ingredients: [
                 Ingredient {
-                    amount: Fraction::new(12, 23),
-                    color: Color::Cyan,
+                    amount: Fraction::new(1, 2),
+                    color: Color::Green,
                     done: false,
                 },
                 Ingredient {
-                    amount: Fraction::new(8, 11),
-                    color: Color::Red,
+                    amount: Fraction::new(7, 11),
+                    color: Color::Blue,
                     done: false,
                 },
                 Ingredient {
-                    amount: Fraction::new(11, 23),
+                    amount: Fraction::new(5, 7),
                     color: Color::Yellow,
                     done: false,
                 },
@@ -103,33 +104,34 @@ impl GameState {
             ],
             droppers: [
                 Dropper {
-                    capacity: Fraction::new(2, 23),
+                    capacity: Fraction::new(1, 2),
                     fill: None,
                 },
                 Dropper {
-                    capacity: Fraction::new(9, 23),
-                    fill: None,
-                },
-                Dropper {
-                    capacity: Fraction::new(2, 23),
-                    fill: None,
-                },
-                Dropper {
-                    capacity: Fraction::new(10, 23),
-                    fill: None,
-                },
-                Dropper {
-                    capacity: Fraction::new(6, 11),
+                    capacity: Fraction::new(1, 11),
                     fill: None,
                 },
                 Dropper {
                     capacity: Fraction::new(2, 11),
                     fill: None,
                 },
+                Dropper {
+                    capacity: Fraction::new(1, 7),
+                    fill: None,
+                },
+                Dropper {
+                    capacity: Fraction::new(6, 7),
+                    fill: None,
+                },
+                Dropper {
+                    capacity: Fraction::new(4, 11),
+                    fill: None,
+                },
             ],
             selected: None, 
             // selected: Some(Entity::Beaker { index: 1 }),
-            feedback: FeedbackImpl
+            feedback: FeedbackImpl { audio_state: true },
+            show_settings: false,
         }
     }
 
@@ -262,5 +264,17 @@ impl GameState {
 
     pub fn is_won(&self) -> bool {
         self.recipe.ingredients.iter().all(|i| i.done)
+    }
+
+    pub fn new_settings_state(&self) -> SettingsState {
+        SettingsState {
+            difficulty: self.difficulty,
+            audio_state: self.feedback.get_audio_state(),
+        }
+    }
+
+    pub fn apply_settings(&mut self, settings: &SettingsState) {
+        // todo: apply difficulty
+        self.feedback.set_audio_state(settings.audio_state);
     }
 }

@@ -34,6 +34,11 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: MAIN_CSS }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
 
+        document::Script {
+            src: "https://kit.fontawesome.com/c37e4abac4.js",
+            crossorigin: "anonymous"
+        }
+
         Hero {}
     }
 }
