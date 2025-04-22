@@ -11,8 +11,12 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
     let audio_settings_changed = move |evt: Event<FormData>| {
         state.write().audio_state = evt.checked();
     };
-    let close = move |_| {
+
+    let ok = move |_| {
         game_state.write().apply_settings(&state.read());
+        game_state.write().show_settings = false;
+    };
+    let cancel = move |_| {
         game_state.write().show_settings = false;
     };
     rsx! {
@@ -33,10 +37,17 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             p { 
                 button {
                     r#type: "button",
-                    style: "font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
-                    onclick: close,
-                    "Close"
-                }
+                    style: "width: 20rem; font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
+                    onclick: ok,
+                    "OK"
+                },
+                " ",
+                button {
+                    r#type: "button",
+                    style: "width: 20rem; font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
+                    onclick: cancel,
+                    "Cancel"
+                },
             }
         }
     }
