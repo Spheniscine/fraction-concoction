@@ -1,4 +1,4 @@
-use dioxus::prelude::*;
+use dioxus::{logger::tracing, prelude::*};
 
 use crate::game::{Feedback, GameState};
 
@@ -11,14 +11,43 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
     let audio_settings_changed = move |evt: Event<FormData>| {
         state.write().audio_state = evt.checked();
     };
-    let close = move |_| {
+
+    let mut ok = move |_| {
         game_state.write().apply_settings(&state.read());
         game_state.write().show_settings = false;
     };
+    let mut cancel = move |_| {
+        game_state.write().show_settings = false;
+    };
+
+    let mut onmounted = async move |e: Event<MountedData>| {
+        e.set_focus(true).await;
+    };
+    let mut onkeydown = move |e: Event<KeyboardData>| {
+        let key = e.key();
+        match key {
+            Key::Enter => {
+                game_state.write().apply_settings(&state.read());
+                game_state.write().show_settings = false;
+            }
+            Key::Escape => {
+                game_state.write().show_settings = false;
+            }
+            _ => {}
+        }
+    };
     rsx! {
+        style {
+            "#settingsDialog:focus {{ outline: none; }}"
+        }
         div {
+            id: "settingsDialog",
             style: "margin: 2.5%; padding: 5rem; width: 85%; height: 91.5%; background-color: #ccc; font-size: 5rem; line-height: 10rem;
                 border-radius: 2rem;",
+            tabindex: -1,
+            onmounted: onmounted,
+            onkeydown: onkeydown,
+            
             p { "Difficulty options: Coming soon!" }
             p { 
                 "Audio: ",
@@ -33,10 +62,17 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             p { 
                 button {
                     r#type: "button",
-                    style: "font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
-                    onclick: close,
-                    "Close"
-                }
+                    style: "width: 20rem; font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
+                    onclick: ok,
+                    "OK"
+                },
+                " ",
+                button {
+                    r#type: "button",
+                    style: "width: 20rem; font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
+                    onclick: cancel,
+                    "Cancel"
+                },
             }
         }
     }
