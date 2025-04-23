@@ -290,7 +290,6 @@ impl GameState {
         // todo: apply difficulty
         self.keep_dropper_selection = settings.keep_dropper_selection;
         self.feedback.set_audio_state(settings.audio_state);
-        self.show_settings = false;
         LocalStorage.save_game_state(&self);
     }
 }
