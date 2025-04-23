@@ -4,12 +4,19 @@ use dioxus::prelude::*;
 
 use crate::{components::{math::Math, AudioPreloader, Beaker, Blender, Dispenser, Dropper, HelpIcon, Recipe, Settings, SettingsIcon, Trash}, game::{random_name, Color, Difficulty, Entity, GameState}, utils::Fraction};
 
+use super::LocalStorage;
+
 #[component]
 pub fn Hero() -> Element {
     let test_tex = (Fraction::new(3, 16) + Fraction::new(5, 16)).to_tex();
     let name = random_name();
 
     let mut state = use_signal(|| {
+        if let Some(mut state) = LocalStorage.load_game_state() {
+            state.selected = None;
+            state.advance();
+            return state;
+        }
         let mut state = GameState::new_test();
         state.generate(Difficulty::Easy);
         state

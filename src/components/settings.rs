@@ -8,6 +8,10 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
         game_state.read().new_settings_state()
     });
 
+    let keep_dropper_selection_settings_changed = move |evt: Event<FormData>| {
+        state.write().keep_dropper_selection = evt.checked();
+    };
+
     let audio_settings_changed = move |evt: Event<FormData>| {
         state.write().audio_state = evt.checked();
     };
@@ -49,6 +53,17 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             onkeydown: onkeydown,
             
             p { "Difficulty options: Coming soon!" }
+
+            p { 
+                "Keep vial selected after pouring: ",
+                input {
+                    r#type: "checkbox",
+                    style: "width: 4rem; height: 4rem;",
+                    checked: state.read().keep_dropper_selection,
+                    onchange: keep_dropper_selection_settings_changed
+                }
+            }
+
             p { 
                 "Audio: ",
                 input {
