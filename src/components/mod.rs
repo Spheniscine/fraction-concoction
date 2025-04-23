@@ -1,6 +1,9 @@
 mod math;
 pub use math::Math;
 
+mod local_storage;
+pub use local_storage::LocalStorage;
+
 mod hero;
 pub use hero::Hero;
 

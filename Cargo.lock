@@ -1633,8 +1633,10 @@ dependencies = [
  "katex",
  "rand 0.9.0",
  "serde",
+ "serde_json",
  "strum",
  "strum_macros",
+ "web-sys",
 ]
 
 [[package]]
