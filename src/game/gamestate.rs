@@ -10,11 +10,13 @@ use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feed
 #[derive(Clone, Serialize, Deserialize)]
 pub struct GameState {
     pub difficulty: Difficulty,
+    pub num_won_at_difficulty: usize,
     pub recipe: Recipe,
     pub beakers: [Option<Beaker>; NUM_BEAKERS],
     pub droppers: [Dropper; NUM_DROPPERS],
     pub selected: Option<Entity>,
     pub feedback: FeedbackImpl,
+    pub keep_dropper_selection: bool,
     pub show_settings: bool,
 }
 
@@ -74,6 +76,7 @@ impl GameState {
 
     pub fn advance(&mut self) {
         if self.is_won() {
+            self.num_won_at_difficulty += 1;
             self.generate(self.difficulty);
             self.recipe.index += 1;
         }
@@ -83,6 +86,7 @@ impl GameState {
     pub fn new_test() -> Self {
         Self {
             difficulty: Difficulty::Easy,
+            num_won_at_difficulty: 0,
             recipe: Recipe { index: 0, name: String::from("Aqua Fortis"), ingredients: [
                 Ingredient {
                     amount: Fraction::new(1, 2),
@@ -132,6 +136,7 @@ impl GameState {
             selected: None, 
             // selected: Some(Entity::Beaker { index: 1 }),
             feedback: FeedbackImpl { audio_state: true },
+            keep_dropper_selection: false,
             show_settings: false,
         }
     }
@@ -173,6 +178,7 @@ impl GameState {
                                 let beaker = self.beakers[beaker_index].as_mut().unwrap();
                                 beaker.amount += dropper.capacity;
                                 beaker.fill = Some(color);
+                                if !self.keep_dropper_selection { self.selected = None; }
                             } else {
                                 self.feedback.play_audio(Audio::Error);
                             }
@@ -196,6 +202,7 @@ impl GameState {
                         if self.droppers[dropper_index].fill.is_some() {
                             self.feedback.play_audio(Audio::Drain);
                             self.droppers[dropper_index].fill = None;
+                            if !self.keep_dropper_selection { self.selected = None; }
                         }
                     }
                     Entity::Dropper { index: other_index } => {
@@ -270,12 +277,14 @@ impl GameState {
     pub fn new_settings_state(&self) -> SettingsState {
         SettingsState {
             difficulty: self.difficulty,
+            keep_dropper_selection: self.keep_dropper_selection,
             audio_state: self.feedback.get_audio_state(),
         }
     }
 
     pub fn apply_settings(&mut self, settings: &SettingsState) {
         // todo: apply difficulty
+        self.keep_dropper_selection = settings.keep_dropper_selection;
         self.feedback.set_audio_state(settings.audio_state);
     }
 }
