@@ -1,7 +1,9 @@
+use serde::{Deserialize, Serialize};
+
 use super::CommonNumExt;
 use std::{cmp::Ordering, fmt::Write, ops::{Add, Sub, AddAssign, SubAssign}};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct Fraction {
     n: i64, d: i64
 }

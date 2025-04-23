@@ -1,8 +1,9 @@
+use serde::{Deserialize, Serialize};
 use strum_macros::{EnumCount, EnumIter, VariantArray};
 
 use super::{NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR};
 
-#[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq, VariantArray)]
+#[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq, VariantArray, Serialize, Deserialize)]
 pub enum Color {
     Red,
     Green,

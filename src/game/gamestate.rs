@@ -1,12 +1,13 @@
 use arrayvec::ArrayVec;
 use rand::{rng, seq::{IndexedRandom, SliceRandom}, Rng};
+use serde::{Deserialize, Serialize};
 use strum::{EnumCount, IntoEnumIterator, VariantArray};
 
 use crate::utils::Fraction;
 
 use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct GameState {
     pub difficulty: Difficulty,
     pub recipe: Recipe,

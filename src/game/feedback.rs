@@ -1,4 +1,5 @@
 use dioxus::{document, prelude::*};
+use serde::{Deserialize, Serialize};
 use strum_macros::{EnumCount, EnumIter};
 
 #[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq)]
@@ -27,7 +28,7 @@ pub trait Feedback {
     fn set_audio_state(&mut self, value: bool);
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct FeedbackImpl {
     pub audio_state: bool
 }
