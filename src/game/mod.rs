@@ -25,5 +25,8 @@ pub use recipe::*;
 mod feedback;
 pub use feedback::*;
 
+mod settingsstate;
+pub use settingsstate::*;
+
 mod gamestate;
 pub use gamestate::*;

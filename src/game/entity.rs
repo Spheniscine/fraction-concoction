@@ -1,6 +1,8 @@
+use serde::{Deserialize, Serialize};
+
 use super::Color;
 
-#[derive(Clone, Copy, Debug, Hash, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Hash, Eq, PartialEq, Serialize, Deserialize)]
 pub enum Entity {
     Dispenser { color: Color },
     Blender,

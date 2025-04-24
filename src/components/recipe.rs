@@ -30,7 +30,7 @@ pub fn Recipe(game_state: Signal<GameState>, style: String) -> Element {
 
             p {
                 style: "position: absolute; top: 1.5rem; right: 1.5rem; font-size: 3rem; font-style: italic",
-                "p. {recipe_index}"
+                "page {recipe_index}"
             },
         }
     }

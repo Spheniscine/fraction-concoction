@@ -1,4 +1,5 @@
 use dioxus::{document, prelude::*};
+use serde::{Deserialize, Serialize};
 use strum_macros::{EnumCount, EnumIter};
 
 #[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq)]
@@ -23,14 +24,28 @@ impl Audio {
 
 pub trait Feedback {
     fn play_audio(&self, audio: Audio);
+    fn get_audio_state(&self) -> bool;
+    fn set_audio_state(&mut self, value: bool);
 }
 
-#[derive(Clone, Debug)]
-pub struct FeedbackImpl;
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct FeedbackImpl {
+    pub audio_state: bool
+}
 
 impl Feedback for FeedbackImpl {
     fn play_audio(&self, audio: Audio) {
-        let script = format!("new Audio('{}').play();", audio.asset());
-        document::eval(&script);
+        if self.get_audio_state() {
+            let script = format!("new Audio('{}').play();", audio.asset());
+            document::eval(&script);
+        }
+    }
+    
+    fn get_audio_state(&self) -> bool {
+        self.audio_state
+    }
+    
+    fn set_audio_state(&mut self, value: bool) {
+        self.audio_state = value;
     }
 }
