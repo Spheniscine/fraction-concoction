@@ -88,7 +88,50 @@ impl GameState {
 
                 self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
             },
-            Difficulty::Hard => todo!(),
+            Difficulty::Hard => {
+                let mut recipe_amounts = ArrayVec::<Fraction, NUM_INGREDIENTS>::new();
+                let mut dropper_amounts = ArrayVec::<Fraction, NUM_DROPPERS>::new();
+
+                let denom = rng.random_range(4..=29);
+                let mut small = rng.random_range(1..denom);
+                let mut big = loop {
+                    let x = rng.random_range(1..denom);
+                    if x != small { break x; }
+                };
+                if small > big { std::mem::swap(&mut small, &mut big); }
+                let small_frac = Fraction::new(small, denom);
+                let big_frac = Fraction::new(big, denom);
+
+                let frac = if rng.random() { 
+                    dropper_amounts.push(small_frac);
+                    dropper_amounts.push(big_frac - small_frac);
+                    big_frac
+                } else {
+                    dropper_amounts.push(small_frac);
+                    dropper_amounts.push(big_frac);
+                    big_frac - small_frac
+                };
+
+                let whole = rng.random_range(1..=3);
+                dropper_amounts.push(Fraction::new(whole, 1));
+                recipe_amounts.push(Fraction::new(whole * rng.random_range(1..=3), 1) + frac);
+                // three droppers and one ingredient accounted for by now
+
+                let denom = rng.random_range(6..=29);
+                let mut candidates = (1..denom).collect::<Vec<_>>();
+                let nums = candidates.partial_shuffle(rng, NUM_DROPPERS - 3).0;
+
+                let small_i = (0..nums.len()).min_by_key(|&i| nums[i]).unwrap();
+                nums.swap(small_i, 0);
+
+                recipe_amounts.push(Fraction::new(nums[1], denom));
+                recipe_amounts.push(Fraction::new(nums[2] - nums[0], denom));
+                dropper_amounts.push(Fraction::new(nums[0], denom));
+                dropper_amounts.push(Fraction::new(nums[1] - nums[0], denom));
+                dropper_amounts.push(Fraction::new(nums[2], denom));
+                
+                self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
+            },
         }
         LocalStorage.save_game_state(&self);
     }
