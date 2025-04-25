@@ -1,12 +1,28 @@
 use dioxus::{logger::tracing, prelude::*};
+use strum::IntoEnumIterator;
 
-use crate::game::{Feedback, GameState};
+use crate::game::{Difficulty, Feedback, GameState};
 
 #[component]
 pub fn Settings(game_state: Signal<GameState>) -> Element {
     let mut state = use_signal(|| {
         game_state.read().new_settings_state()
     });
+
+    let mut difficulty_changed = move |evt: Event<FormData>| {
+        state.write().difficulty = evt.value().parse().unwrap_or(Difficulty::Easy);
+        if state.read().difficulty != game_state.read().difficulty {
+            state.write().reset_level = true;
+        }
+    };
+
+    let reset_level_changed = move |evt: Event<FormData>| {
+        state.write().reset_level = evt.checked();
+    };
+
+    let adaptive_difficulty_changed = move |evt: Event<FormData>| {
+        state.write().adaptive_difficulty = evt.checked();
+    };
 
     let keep_dropper_selection_settings_changed = move |evt: Event<FormData>| {
         state.write().keep_dropper_selection = evt.checked();
@@ -40,6 +56,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             _ => {}
         }
     };
+
     rsx! {
         style {
             "#settingsDialog:focus {{ outline: none; }}"
@@ -52,7 +69,39 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             onmounted: onmounted,
             onkeydown: onkeydown,
             
-            p { "Difficulty options: Coming soon!" },
+            p { "Difficulty options: ",
+                select {
+                    style: "font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
+                    onchange: difficulty_changed,
+                    for difficulty in Difficulty::iter() {
+                        option { 
+                            selected: difficulty == state.read().difficulty,
+                            "{difficulty}" 
+                        },
+                    }
+                },
+            },
+
+            p { 
+                "Reset current level: ",
+                input {
+                    r#type: "checkbox",
+                    style: "width: 4rem; height: 4rem;",
+                    checked: state.read().reset_level,
+                    disabled: state.read().difficulty != game_state.read().difficulty,
+                    onchange: reset_level_changed
+                }
+            },
+
+            p { 
+                "Adaptive difficulty: ",
+                input {
+                    r#type: "checkbox",
+                    style: "width: 4rem; height: 4rem;",
+                    checked: state.read().adaptive_difficulty,
+                    onchange: adaptive_difficulty_changed
+                }
+            },
 
             p { 
                 "Keep vial selected after pouring: ",

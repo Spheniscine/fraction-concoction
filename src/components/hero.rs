@@ -9,14 +9,14 @@ use super::LocalStorage;
 #[component]
 pub fn Hero() -> Element {
     let mut state = use_signal(|| {
-        // if let Some(mut state) = LocalStorage.load_game_state() {
-        //     state.selected = None;
-        //     state.show_settings = false;
-        //     state.advance();
-        //     return state;
-        // }
+        if let Some(mut state) = LocalStorage.load_game_state() {
+            state.selected = None;
+            state.show_settings = false;
+            state.advance(); // prevent softlocks when loading a won state
+            return state;
+        }
         let mut state = GameState::new_test();
-        state.generate(Difficulty::Hard);
+        state.generate(Difficulty::Easy);
         state
     });
 

@@ -5,7 +5,11 @@ use strum::{EnumCount, IntoEnumIterator, VariantArray};
 
 use crate::{components::LocalStorage, utils::{CommonNumExt, Fraction}};
 
-use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, NUM_BEAKERS, NUM_COLORS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
+use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, ADAPTIVE_ADVANCE_SCORE, NUM_BEAKERS, NUM_COLORS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
+
+fn yes() -> bool {
+    true
+}
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct GameState {
@@ -18,6 +22,9 @@ pub struct GameState {
     pub feedback: FeedbackImpl,
     pub keep_dropper_selection: bool,
     pub show_settings: bool,
+
+    #[serde(default = "yes")]
+    pub adaptive_difficulty: bool,
 }
 
 impl GameState {
@@ -129,7 +136,7 @@ impl GameState {
                 dropper_amounts.push(Fraction::new(nums[0], denom));
                 dropper_amounts.push(Fraction::new(nums[1] - nums[0], denom));
                 dropper_amounts.push(Fraction::new(nums[2], denom));
-                
+
                 self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
             },
         }
@@ -162,6 +169,12 @@ impl GameState {
     pub fn advance(&mut self) {
         if self.is_won() {
             self.num_won_at_difficulty += 1;
+            if self.adaptive_difficulty && self.num_won_at_difficulty >= ADAPTIVE_ADVANCE_SCORE {
+                if let Some(d) = self.difficulty.next_up() {
+                    self.difficulty = d;
+                    self.num_won_at_difficulty = 0;
+                }
+            }
             self.recipe.index += 1;
             self.generate(self.difficulty);
         }
@@ -223,6 +236,7 @@ impl GameState {
             feedback: FeedbackImpl { audio_state: true },
             keep_dropper_selection: false,
             show_settings: false,
+            adaptive_difficulty: true,
         }
     }
 
@@ -367,13 +381,21 @@ impl GameState {
             difficulty: self.difficulty,
             keep_dropper_selection: self.keep_dropper_selection,
             audio_state: self.feedback.get_audio_state(),
+            adaptive_difficulty: self.adaptive_difficulty,
+            reset_level: false,
         }
     }
 
     pub fn apply_settings(&mut self, settings: &SettingsState) {
-        // todo: apply difficulty
         self.keep_dropper_selection = settings.keep_dropper_selection;
         self.feedback.set_audio_state(settings.audio_state);
+        self.adaptive_difficulty = settings.adaptive_difficulty;
+
+        if self.difficulty != settings.difficulty || settings.reset_level {
+            self.difficulty = settings.difficulty;
+            self.num_won_at_difficulty = 0;
+            self.generate(self.difficulty);
+        }
         LocalStorage.save_game_state(&self);
     }
 }
