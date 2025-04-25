@@ -83,7 +83,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             },
 
             p { 
-                "Reset current level: ",
+                "Generate new recipe: ",
                 input {
                     r#type: "checkbox",
                     style: "width: 4rem; height: 4rem;",
