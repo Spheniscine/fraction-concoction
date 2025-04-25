@@ -139,6 +139,36 @@ impl GameState {
 
                 self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
             },
+
+            Difficulty::Insane => {
+                let mut recipe_amounts = ArrayVec::<Fraction, NUM_INGREDIENTS>::new();
+                let mut dropper_amounts = ArrayVec::<Fraction, NUM_DROPPERS>::new();
+
+                for t in 1..=2 {
+                    let denom = rng.random_range(6..=30);
+
+                    let mut candidates = (1..denom).collect::<Vec<_>>();
+                    let nums: &[i64] = candidates.partial_shuffle(rng, 3).0;
+
+                    for &num in nums {
+                        dropper_amounts.push(Fraction::new(num, denom));
+                    }
+
+                    for _ in 0..t {
+                        loop {
+                            let mut sum = 0i64;
+                            for &num in nums {
+                                sum += num * rng.random_range(-3 ..= 3);
+                            }
+                            if sum == 0 { continue; }
+                            recipe_amounts.push(Fraction::new(sum.abs(), denom));
+                            break;
+                        }
+                    }
+                }
+
+                self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
+            },
         }
         LocalStorage.save_game_state(&self);
     }
