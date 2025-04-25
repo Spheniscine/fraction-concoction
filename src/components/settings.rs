@@ -52,7 +52,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             onmounted: onmounted,
             onkeydown: onkeydown,
             
-            p { "Difficulty options: Coming soon!" }
+            p { "Difficulty options: Coming soon!" },
 
             p { 
                 "Keep vial selected after pouring: ",
@@ -62,7 +62,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
                     checked: state.read().keep_dropper_selection,
                     onchange: keep_dropper_selection_settings_changed
                 }
-            }
+            },
 
             p { 
                 "Audio: ",
@@ -72,7 +72,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
                     checked: state.read().audio_state,
                     onchange: audio_settings_changed
                 }
-            }
+            },
 
             p { 
                 button {
@@ -88,7 +88,12 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
                     onclick: cancel,
                     "Cancel"
                 },
-            }
+            },
+
+            p {
+                style: "position: absolute; bottom: 1.5rem; font-size: 3rem;",
+                "© OnlineMathLearning.com"
+            },
         }
     }
 }
