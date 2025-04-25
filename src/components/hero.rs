@@ -8,9 +8,6 @@ use super::LocalStorage;
 
 #[component]
 pub fn Hero() -> Element {
-    let test_tex = (Fraction::new(3, 16) + Fraction::new(5, 16)).to_tex();
-    let name = random_name();
-
     let mut state = use_signal(|| {
         if let Some(mut state) = LocalStorage.load_game_state() {
             state.selected = None;
