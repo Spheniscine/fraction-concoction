@@ -3,9 +3,13 @@ use rand::{rng, seq::{IndexedRandom, SliceRandom}, Rng};
 use serde::{Deserialize, Serialize};
 use strum::{EnumCount, IntoEnumIterator, VariantArray};
 
-use crate::{components::LocalStorage, utils::Fraction};
+use crate::{components::LocalStorage, utils::{CommonNumExt, Fraction}};
 
-use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
+use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, ADAPTIVE_ADVANCE_SCORE, NUM_BEAKERS, NUM_COLORS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
+
+fn yes() -> bool {
+    true
+}
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct GameState {
@@ -18,6 +22,9 @@ pub struct GameState {
     pub feedback: FeedbackImpl,
     pub keep_dropper_selection: bool,
     pub show_settings: bool,
+
+    #[serde(default = "yes")]
+    pub adaptive_difficulty: bool,
 }
 
 impl GameState {
@@ -28,12 +35,12 @@ impl GameState {
         self.beakers = [
             Some(Beaker { amount: Fraction::zero(), fill: None }); NUM_BEAKERS
         ];
-        let mut rng = rng();
+        let rng = &mut rng();
         match difficulty {
             Difficulty::Easy => {
-                let prime1 = *PRIME_DENOMS.choose(&mut rng).unwrap();
+                let prime1 = *PRIME_DENOMS.choose(rng).unwrap();
                 let prime2 = loop {
-                    let x = *PRIME_DENOMS.choose(&mut rng).unwrap();
+                    let x = *PRIME_DENOMS.choose(rng).unwrap();
                     if x != prime1 { break x; }
                 };
 
@@ -51,33 +58,123 @@ impl GameState {
                     dropper_amounts.push(Fraction::new(b - a, p));
                 }
 
-                recipe_amounts.shuffle(&mut rng);
-                dropper_amounts.shuffle(&mut rng);
+                self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
+            },
+            Difficulty::Medium => {
+                let mut recipe_amounts = ArrayVec::<Fraction, NUM_INGREDIENTS>::new();
+                let mut dropper_amounts = ArrayVec::<Fraction, NUM_DROPPERS>::new();
 
-                let mut colors = Color::iter().collect::<ArrayVec<Color, {Color::COUNT}>>();
-                colors.partial_shuffle(&mut rng, NUM_INGREDIENTS);
+                let numer = rng.random_range(1..=3);
+                let denom = rng.random_range(4..=29);
+                let whole = rng.random_range(1..=3);
+                recipe_amounts.push(Fraction::new(whole, 1) + Fraction::new(numer, denom));
+                dropper_amounts.push(Fraction::one());
+                dropper_amounts.push(Fraction::new(1, denom));
 
-                for i in 0..NUM_INGREDIENTS {
-                    self.recipe.ingredients[i] = Ingredient {
-                        amount: recipe_amounts[i],
-                        color: colors[i],
-                        done: false,
+                for it in 0..2 {
+                    let denom = rng.random_range(6..=29);
+                    let divisors = (1..denom).filter(|&i| denom % i == 0).collect::<Vec<_>>();
+                    let small = *divisors.choose(rng).unwrap();
+
+                    let big_candidates = (small + 1 .. denom).filter(|&i| i.gcd(denom) == 1).collect::<Vec<_>>();
+                    let big = *big_candidates.choose(rng).unwrap();
+
+                    let small_frac = Fraction::new(small, denom);
+                    let big_frac = Fraction::new(big, denom);
+
+                    if it == 0 {
+                        recipe_amounts.push(big_frac);
+                        dropper_amounts.push(small_frac);
+                        dropper_amounts.push(big_frac - small_frac);
+                    } else {
+                        recipe_amounts.push(big_frac - small_frac);
+                        dropper_amounts.push(small_frac);
+                        dropper_amounts.push(big_frac);
                     }
                 }
 
-                for i in 0..NUM_DROPPERS {
-                    self.droppers[i] = Dropper { capacity: dropper_amounts[i], fill: None  }
-                }
+                self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
             },
-            Difficulty::Medium => todo!(),
-            Difficulty::Hard => todo!(),
+            Difficulty::Hard => {
+                let mut recipe_amounts = ArrayVec::<Fraction, NUM_INGREDIENTS>::new();
+                let mut dropper_amounts = ArrayVec::<Fraction, NUM_DROPPERS>::new();
+
+                let denom = rng.random_range(4..=29);
+                let mut small = rng.random_range(1..denom);
+                let mut big = loop {
+                    let x = rng.random_range(1..denom);
+                    if x != small { break x; }
+                };
+                if small > big { std::mem::swap(&mut small, &mut big); }
+                let small_frac = Fraction::new(small, denom);
+                let big_frac = Fraction::new(big, denom);
+
+                let frac = if rng.random() { 
+                    dropper_amounts.push(small_frac);
+                    dropper_amounts.push(big_frac - small_frac);
+                    big_frac
+                } else {
+                    dropper_amounts.push(small_frac);
+                    dropper_amounts.push(big_frac);
+                    big_frac - small_frac
+                };
+
+                let whole = rng.random_range(1..=3);
+                dropper_amounts.push(Fraction::new(whole, 1));
+                recipe_amounts.push(Fraction::new(whole * rng.random_range(1..=3), 1) + frac);
+                // three droppers and one ingredient accounted for by now
+
+                let denom = rng.random_range(6..=29);
+                let mut candidates = (1..denom).collect::<Vec<_>>();
+                let nums = candidates.partial_shuffle(rng, NUM_DROPPERS - 3).0;
+
+                let small_i = (0..nums.len()).min_by_key(|&i| nums[i]).unwrap();
+                nums.swap(small_i, 0);
+
+                recipe_amounts.push(Fraction::new(nums[1], denom));
+                recipe_amounts.push(Fraction::new(nums[2] - nums[0], denom));
+                dropper_amounts.push(Fraction::new(nums[0], denom));
+                dropper_amounts.push(Fraction::new(nums[1] - nums[0], denom));
+                dropper_amounts.push(Fraction::new(nums[2], denom));
+
+                self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
+            },
         }
         LocalStorage.save_game_state(&self);
+    }
+
+    fn generate_from_amounts(&mut self, rng: &mut impl Rng, 
+        mut recipe_amounts: [Fraction; NUM_INGREDIENTS], 
+        mut dropper_amounts: [Fraction; NUM_DROPPERS]) 
+    {
+        recipe_amounts.shuffle(rng);
+        dropper_amounts.shuffle(rng);
+
+        let mut colors: [Color; NUM_COLORS] = Color::VARIANTS.try_into().unwrap();
+        colors.partial_shuffle(rng, NUM_INGREDIENTS);
+
+        for i in 0..NUM_INGREDIENTS {
+            self.recipe.ingredients[i] = Ingredient {
+                amount: recipe_amounts[i],
+                color: colors[i],
+                done: false,
+            }
+        }
+
+        for i in 0..NUM_DROPPERS {
+            self.droppers[i] = Dropper { capacity: dropper_amounts[i], fill: None  }
+        }
     }
 
     pub fn advance(&mut self) {
         if self.is_won() {
             self.num_won_at_difficulty += 1;
+            if self.adaptive_difficulty && self.num_won_at_difficulty >= ADAPTIVE_ADVANCE_SCORE {
+                if let Some(d) = self.difficulty.next_up() {
+                    self.difficulty = d;
+                    self.num_won_at_difficulty = 0;
+                }
+            }
             self.recipe.index += 1;
             self.generate(self.difficulty);
         }
@@ -139,6 +236,7 @@ impl GameState {
             feedback: FeedbackImpl { audio_state: true },
             keep_dropper_selection: false,
             show_settings: false,
+            adaptive_difficulty: true,
         }
     }
 
@@ -283,13 +381,21 @@ impl GameState {
             difficulty: self.difficulty,
             keep_dropper_selection: self.keep_dropper_selection,
             audio_state: self.feedback.get_audio_state(),
+            adaptive_difficulty: self.adaptive_difficulty,
+            reset_level: false,
         }
     }
 
     pub fn apply_settings(&mut self, settings: &SettingsState) {
-        // todo: apply difficulty
         self.keep_dropper_selection = settings.keep_dropper_selection;
         self.feedback.set_audio_state(settings.audio_state);
+        self.adaptive_difficulty = settings.adaptive_difficulty;
+
+        if self.difficulty != settings.difficulty || settings.reset_level {
+            self.difficulty = settings.difficulty;
+            self.num_won_at_difficulty = 0;
+            self.generate(self.difficulty);
+        }
         LocalStorage.save_game_state(&self);
     }
 }

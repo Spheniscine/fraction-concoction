@@ -72,7 +72,7 @@ impl Fraction {
                 write!(res, "{}", p).ok();
             }
             if q != 0 {
-                write!(res, "\\large\\frac{{{}}}{{{}}}", q, r).ok();
+                write!(res, "{{\\large\\frac{{{}}}{{{}}}}}", q, r).ok();
             }
         }
         res

@@ -12,7 +12,7 @@ pub fn Hero() -> Element {
         if let Some(mut state) = LocalStorage.load_game_state() {
             state.selected = None;
             state.show_settings = false;
-            state.advance();
+            state.advance(); // prevent softlocks when loading a won state
             return state;
         }
         let mut state = GameState::new_test();
