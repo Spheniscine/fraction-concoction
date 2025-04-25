@@ -64,7 +64,7 @@ impl GameState {
                 let mut recipe_amounts = ArrayVec::<Fraction, NUM_INGREDIENTS>::new();
                 let mut dropper_amounts = ArrayVec::<Fraction, NUM_DROPPERS>::new();
 
-                let numer = rng.random_range(1..=3);
+                let numer = rng.random_range(1..=2);
                 let denom = rng.random_range(4..=29);
                 let whole = rng.random_range(1..=3);
                 recipe_amounts.push(Fraction::new(whole, 1) + Fraction::new(numer, denom));
@@ -72,24 +72,29 @@ impl GameState {
                 dropper_amounts.push(Fraction::new(1, denom));
 
                 for it in 0..2 {
-                    let denom = rng.random_range(6..=29);
-                    let divisors = (1..denom).filter(|&i| denom % i == 0).collect::<Vec<_>>();
-                    let small = *divisors.choose(rng).unwrap();
+                    loop {
+                        let denom = rng.random_range(6..=29);
+                        let divisors = (1..denom).filter(|&i| denom % i == 0).collect::<Vec<_>>();
+                        let small = *divisors.choose(rng).unwrap();
 
-                    let big_candidates = (small + 1 .. denom).filter(|&i| i.gcd(denom) == 1).collect::<Vec<_>>();
-                    let big = *big_candidates.choose(rng).unwrap();
+                        let big_candidates = (small + 1 .. denom).filter(|&i| i.gcd(denom) == 1).collect::<Vec<_>>();
+                        let big = *big_candidates.choose(rng).unwrap();
 
-                    let small_frac = Fraction::new(small, denom);
-                    let big_frac = Fraction::new(big, denom);
+                        let small_frac = Fraction::new(small, denom);
+                        let big_frac = Fraction::new(big, denom);
+                        let diff = big_frac - small_frac;
+                        if diff.denominator() != denom { continue; }
 
-                    if it == 0 {
-                        recipe_amounts.push(big_frac);
-                        dropper_amounts.push(small_frac);
-                        dropper_amounts.push(big_frac - small_frac);
-                    } else {
-                        recipe_amounts.push(big_frac - small_frac);
-                        dropper_amounts.push(small_frac);
-                        dropper_amounts.push(big_frac);
+                        if it == 0 {
+                            recipe_amounts.push(big_frac);
+                            dropper_amounts.push(small_frac);
+                            dropper_amounts.push(diff);
+                        } else {
+                            recipe_amounts.push(diff);
+                            dropper_amounts.push(small_frac);
+                            dropper_amounts.push(big_frac);
+                        }
+                        break;
                     }
                 }
 
@@ -124,7 +129,7 @@ impl GameState {
                 recipe_amounts.push(Fraction::new(whole * rng.random_range(1..=3), 1) + frac);
                 // three droppers and one ingredient accounted for by now
 
-                let denom = rng.random_range(6..=29);
+                let denom = rng.random_range(6..=30);
                 let mut candidates = (1..denom).collect::<Vec<_>>();
                 let nums = candidates.partial_shuffle(rng, NUM_DROPPERS - 3).0;
 
@@ -136,6 +141,36 @@ impl GameState {
                 dropper_amounts.push(Fraction::new(nums[0], denom));
                 dropper_amounts.push(Fraction::new(nums[1] - nums[0], denom));
                 dropper_amounts.push(Fraction::new(nums[2], denom));
+
+                self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
+            },
+
+            Difficulty::Insane => {
+                let mut recipe_amounts = ArrayVec::<Fraction, NUM_INGREDIENTS>::new();
+                let mut dropper_amounts = ArrayVec::<Fraction, NUM_DROPPERS>::new();
+
+                for t in 1..=2 {
+                    let denom = rng.random_range(6..=30);
+
+                    let mut candidates = (1..denom).collect::<Vec<_>>();
+                    let nums: &[i64] = candidates.partial_shuffle(rng, 3).0;
+
+                    for &num in nums {
+                        dropper_amounts.push(Fraction::new(num, denom));
+                    }
+
+                    for _ in 0..t {
+                        loop {
+                            let mut sum = 0i64;
+                            for &num in nums {
+                                sum += num * rng.random_range(-3 ..= 3);
+                            }
+                            if sum == 0 { continue; }
+                            recipe_amounts.push(Fraction::new(sum.abs(), denom));
+                            break;
+                        }
+                    }
+                }
 
                 self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
             },

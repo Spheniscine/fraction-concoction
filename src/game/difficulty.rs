@@ -7,7 +7,8 @@ use strum_macros::{EnumCount, EnumIter};
 pub enum Difficulty {
     Easy,
     Medium,
-    Hard
+    Hard,
+    Insane,
 }
 
 impl Difficulty {
@@ -15,7 +16,8 @@ impl Difficulty {
         match self {
             Difficulty::Easy => Some(Difficulty::Medium),
             Difficulty::Medium => Some(Difficulty::Hard),
-            Difficulty::Hard => None,
+            Difficulty::Hard => Some(Difficulty::Insane),
+            Difficulty::Insane => None,
         }
     }
 }
@@ -26,6 +28,7 @@ impl Display for Difficulty {
             Difficulty::Easy => "Easy",
             Difficulty::Medium => "Medium",
             Difficulty::Hard => "Hard",
+            Difficulty::Insane => "Insane",
         };
         f.write_str(s)?;
         Ok(())
@@ -40,6 +43,7 @@ impl FromStr for Difficulty {
             "easy" => Ok(Difficulty::Easy),
             "medium" => Ok(Difficulty::Medium),
             "hard" => Ok(Difficulty::Hard),
+            "insane" => Ok(Difficulty::Insane),
             _ => Err(())
         }
     }
