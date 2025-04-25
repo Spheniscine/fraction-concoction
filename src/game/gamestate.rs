@@ -5,7 +5,7 @@ use strum::{EnumCount, IntoEnumIterator, VariantArray};
 
 use crate::{components::LocalStorage, utils::Fraction};
 
-use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, NUM_BEAKERS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
+use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, NUM_BEAKERS, NUM_COLORS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct GameState {
@@ -51,28 +51,35 @@ impl GameState {
                     dropper_amounts.push(Fraction::new(b - a, p));
                 }
 
-                recipe_amounts.shuffle(&mut rng);
-                dropper_amounts.shuffle(&mut rng);
-
-                let mut colors = Color::iter().collect::<ArrayVec<Color, {Color::COUNT}>>();
-                colors.partial_shuffle(&mut rng, NUM_INGREDIENTS);
-
-                for i in 0..NUM_INGREDIENTS {
-                    self.recipe.ingredients[i] = Ingredient {
-                        amount: recipe_amounts[i],
-                        color: colors[i],
-                        done: false,
-                    }
-                }
-
-                for i in 0..NUM_DROPPERS {
-                    self.droppers[i] = Dropper { capacity: dropper_amounts[i], fill: None  }
-                }
+                self.generate_from_amounts(&mut rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
             },
             Difficulty::Medium => todo!(),
             Difficulty::Hard => todo!(),
         }
         LocalStorage.save_game_state(&self);
+    }
+
+    fn generate_from_amounts(&mut self, rng: &mut impl Rng, 
+        mut recipe_amounts: [Fraction; NUM_INGREDIENTS], 
+        mut dropper_amounts: [Fraction; NUM_DROPPERS]) 
+    {
+        recipe_amounts.shuffle(rng);
+        dropper_amounts.shuffle(rng);
+
+        let mut colors: [Color; NUM_COLORS] = Color::VARIANTS.try_into().unwrap();
+        colors.partial_shuffle(rng, NUM_INGREDIENTS);
+
+        for i in 0..NUM_INGREDIENTS {
+            self.recipe.ingredients[i] = Ingredient {
+                amount: recipe_amounts[i],
+                color: colors[i],
+                done: false,
+            }
+        }
+
+        for i in 0..NUM_DROPPERS {
+            self.droppers[i] = Dropper { capacity: dropper_amounts[i], fill: None  }
+        }
     }
 
     pub fn advance(&mut self) {
