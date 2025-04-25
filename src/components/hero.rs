@@ -16,7 +16,7 @@ pub fn Hero() -> Element {
         //     return state;
         // }
         let mut state = GameState::new_test();
-        state.generate(Difficulty::Easy);
+        state.generate(Difficulty::Medium);
         state
     });
 

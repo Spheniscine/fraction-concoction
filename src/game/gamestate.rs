@@ -3,7 +3,7 @@ use rand::{rng, seq::{IndexedRandom, SliceRandom}, Rng};
 use serde::{Deserialize, Serialize};
 use strum::{EnumCount, IntoEnumIterator, VariantArray};
 
-use crate::{components::LocalStorage, utils::Fraction};
+use crate::{components::LocalStorage, utils::{CommonNumExt, Fraction}};
 
 use super::{random_name, Audio, Beaker, Color, Difficulty, Dropper, Entity, Feedback, FeedbackImpl, Ingredient, Recipe, SettingsState, NUM_BEAKERS, NUM_COLORS, NUM_DROPPERS, NUM_INGREDIENTS, PRIME_DENOMS};
 
@@ -28,12 +28,12 @@ impl GameState {
         self.beakers = [
             Some(Beaker { amount: Fraction::zero(), fill: None }); NUM_BEAKERS
         ];
-        let mut rng = rng();
+        let rng = &mut rng();
         match difficulty {
             Difficulty::Easy => {
-                let prime1 = *PRIME_DENOMS.choose(&mut rng).unwrap();
+                let prime1 = *PRIME_DENOMS.choose(rng).unwrap();
                 let prime2 = loop {
-                    let x = *PRIME_DENOMS.choose(&mut rng).unwrap();
+                    let x = *PRIME_DENOMS.choose(rng).unwrap();
                     if x != prime1 { break x; }
                 };
 
@@ -51,9 +51,43 @@ impl GameState {
                     dropper_amounts.push(Fraction::new(b - a, p));
                 }
 
-                self.generate_from_amounts(&mut rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
+                self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
             },
-            Difficulty::Medium => todo!(),
+            Difficulty::Medium => {
+                let mut recipe_amounts = ArrayVec::<Fraction, NUM_INGREDIENTS>::new();
+                let mut dropper_amounts = ArrayVec::<Fraction, NUM_DROPPERS>::new();
+
+                let numer = rng.random_range(1..=3);
+                let denom = rng.random_range(4..=29);
+                let whole = rng.random_range(1..=3);
+                recipe_amounts.push(Fraction::new(whole, 1) + Fraction::new(numer, denom));
+                dropper_amounts.push(Fraction::one());
+                dropper_amounts.push(Fraction::new(1, denom));
+
+                for it in 0..2 {
+                    let denom = rng.random_range(6..=29);
+                    let divisors = (1..denom).filter(|&i| denom % i == 0).collect::<Vec<_>>();
+                    let small = *divisors.choose(rng).unwrap();
+
+                    let big_candidates = (small + 1 .. denom).filter(|&i| i.gcd(denom) == 1).collect::<Vec<_>>();
+                    let big = *big_candidates.choose(rng).unwrap();
+
+                    let small_frac = Fraction::new(small, denom);
+                    let big_frac = Fraction::new(big, denom);
+
+                    if it == 0 {
+                        recipe_amounts.push(big_frac);
+                        dropper_amounts.push(small_frac);
+                        dropper_amounts.push(big_frac - small_frac);
+                    } else {
+                        recipe_amounts.push(big_frac - small_frac);
+                        dropper_amounts.push(small_frac);
+                        dropper_amounts.push(big_frac);
+                    }
+                }
+
+                self.generate_from_amounts(rng, recipe_amounts.into_inner().unwrap(), dropper_amounts.into_inner().unwrap());
+            },
             Difficulty::Hard => todo!(),
         }
         LocalStorage.save_game_state(&self);
