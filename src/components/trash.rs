@@ -13,6 +13,7 @@ pub fn Trash(entity: Entity, game_state: Signal<GameState>, style: String) -> El
                     onclick: move |_| game_state.write().click_entity(entity),
                     style,
                     img {
+                        style: "width: 40rem; height: 40rem;",
                         src: TRASH_SVG,
                     }
                 },
