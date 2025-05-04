@@ -33,9 +33,9 @@ pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                         }
 
                         div {
-                            style: "background-color: {background_color}; position: absolute; top: 6.1rem; left: 3.4rem; 
-                            height: 18.2rem; width: 8.3rem; border-radius: 0 0 5rem 5rem; 
-                            line-height: 18.2rem; text-align: center;",
+                            style: "background-color: {background_color}; position: absolute; top: 6.2rem; left: 3.4rem; 
+                            height: 18.1rem; width: 8.3rem; border-radius: 0 0 5rem 5rem; 
+                            line-height: 18.1rem; text-align: center;",
                             Math {
                                 style: "font-size: 4.5rem; color: {text_color}",
                                 tex: {tex},
