@@ -1,6 +1,7 @@
 use dioxus::{document, prelude::*};
 use serde::{Deserialize, Serialize};
 use strum_macros::{EnumCount, EnumIter};
+use web_sys::HtmlAudioElement;
 
 #[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq)]
 pub enum Audio {
@@ -36,8 +37,7 @@ pub struct FeedbackImpl {
 impl Feedback for FeedbackImpl {
     fn play_audio(&self, audio: Audio) {
         if self.get_audio_state() {
-            let script = format!("new Audio('{}').play();", audio.asset());
-            document::eval(&script);
+            HtmlAudioElement::new_with_src(&audio.asset().to_string()).map(|e| e.play());
         }
     }
     
