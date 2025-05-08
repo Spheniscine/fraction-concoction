@@ -62,11 +62,12 @@ fn deserialize_audio_state<'de, D>(deserializer: D) -> Result<f64, D::Error> whe
 
 impl Feedback for FeedbackImpl {
     fn play_audio(&self, audio: Audio) {
-        HtmlAudioElement::new_with_src(&audio.asset().to_string())
-            .map(|e| {
+        if self.audio_state > 0. {
+            if let Ok(e) = HtmlAudioElement::new_with_src(&audio.asset().to_string()) {
                 e.set_volume(self.audio_state);
-                e.play()
-            });
+                e.play();
+            }
+        }
     }
     
     fn get_audio_state(&self) -> f64 {
