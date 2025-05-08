@@ -268,7 +268,7 @@ impl GameState {
             ],
             selected: None, 
             // selected: Some(Entity::Beaker { index: 1 }),
-            feedback: FeedbackImpl { audio_state: 1. },
+            feedback: FeedbackImpl { audio_state: 1., prev_audio_state: 1. },
             keep_dropper_selection: false,
             show_settings: false,
             adaptive_difficulty: true,

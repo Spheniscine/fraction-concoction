@@ -27,13 +27,19 @@ pub trait Feedback {
     fn play_audio(&self, audio: Audio);
     fn get_audio_state(&self) -> f64;
     fn set_audio_state(&mut self, value: f64);
+    fn toggle_audio(&mut self);
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct FeedbackImpl {
     #[serde(deserialize_with = "deserialize_audio_state")]
-    pub audio_state: f64
+    pub audio_state: f64,
+
+    #[serde(default = "_1f64")]
+    pub prev_audio_state: f64,
 }
+
+fn _1f64() -> f64 { 1. }
 
 fn deserialize_audio_state<'de, D>(deserializer: D) -> Result<f64, D::Error> where D: Deserializer<'de> {
     struct MyVisitor;
@@ -62,11 +68,12 @@ fn deserialize_audio_state<'de, D>(deserializer: D) -> Result<f64, D::Error> whe
 
 impl Feedback for FeedbackImpl {
     fn play_audio(&self, audio: Audio) {
-        HtmlAudioElement::new_with_src(&audio.asset().to_string())
-            .map(|e| {
+        if self.audio_state > 0. {
+            if let Ok(e) = HtmlAudioElement::new_with_src(&audio.asset().to_string()) {
                 e.set_volume(self.audio_state);
-                e.play()
-            });
+                e.play();
+            }
+        }
     }
     
     fn get_audio_state(&self) -> f64 {
@@ -74,6 +81,16 @@ impl Feedback for FeedbackImpl {
     }
     
     fn set_audio_state(&mut self, value: f64) {
+        if value == 0. && self.audio_state > 0. { self.prev_audio_state = self.audio_state; }
         self.audio_state = value;
+    }
+
+    fn toggle_audio(&mut self) {
+        if self.audio_state == 0. {
+            self.audio_state = self.prev_audio_state;
+        } else {
+            self.prev_audio_state = self.audio_state;
+            self.audio_state = 0.;
+        }
     }
 }
