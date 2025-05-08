@@ -57,7 +57,7 @@ fn deserialize_audio_state<'de, D>(deserializer: D) -> Result<f64, D::Error> whe
         }
     }
 
-    deserializer.deserialize_f64(MyVisitor)
+    deserializer.deserialize_any(MyVisitor)
 }
 
 impl Feedback for FeedbackImpl {
