@@ -29,7 +29,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
     };
 
     let audio_settings_changed = move |evt: Event<FormData>| {
-        state.write().audio_state = evt.checked();
+        state.write().audio_state = evt.value().parse().unwrap_or(100);
     };
 
     let mut ok = move |_| {
@@ -116,11 +116,13 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             p { 
                 "Audio: ",
                 input {
-                    r#type: "checkbox",
-                    style: "width: 4rem; height: 4rem;",
-                    checked: state.read().audio_state,
-                    onchange: audio_settings_changed
-                }
+                    r#type: "range",
+                    style: "width: 50rem; height: 4rem;",
+                    min: 0, max: 100, step: 5, 
+                    value: state.read().audio_state,
+                    oninput: audio_settings_changed
+                },
+                " {state.read().audio_state}",
             },
 
             p { 
