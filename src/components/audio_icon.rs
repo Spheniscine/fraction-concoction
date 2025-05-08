@@ -11,6 +11,16 @@ pub fn AudioIcon(style: String, game_state: Signal<GameState>) -> Element {
     rsx! {
         div {
             style,
+            link {
+                rel: "preload",
+                href: VOLUME_OFF_SVG,
+                r#as: "image",
+            },
+            link {
+                rel: "preload",
+                href: VOLUME_ON_SVG,
+                r#as: "image",
+            },
             img {
                 style: "width: 14rem; height: 11rem;",
                 src: src,
