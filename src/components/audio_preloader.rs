@@ -7,10 +7,9 @@ use crate::game::Audio;
 pub fn AudioPreloader() -> Element {
     rsx! {
         for value in Audio::iter() {
-            link {
-                rel: "preload",
-                href: {value.asset()},
-                r#as: "audio",
+            audio {
+                preload: "auto",
+                src: {value.asset()},
             }
         }
     }
