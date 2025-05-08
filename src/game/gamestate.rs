@@ -407,6 +407,11 @@ impl GameState {
         LocalStorage.save_game_state(&self);
     }
 
+    pub fn toggle_audio(&mut self) {
+        self.feedback.toggle_audio();
+        LocalStorage.save_game_state(&self);
+    }
+
     pub fn is_won(&self) -> bool {
         self.recipe.ingredients.iter().all(|i| i.done)
     }

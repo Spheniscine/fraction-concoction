@@ -14,7 +14,7 @@ pub fn AudioIcon(style: String, game_state: Signal<GameState>) -> Element {
             img {
                 style: "width: 14rem; height: 11rem;",
                 src: src,
-                onclick: move |_| {game_state.write().feedback.toggle_audio();}
+                onclick: move |_| {game_state.write().toggle_audio();}
             }
         }
     }
