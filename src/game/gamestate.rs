@@ -268,7 +268,7 @@ impl GameState {
             ],
             selected: None, 
             // selected: Some(Entity::Beaker { index: 1 }),
-            feedback: FeedbackImpl { audio_state: true },
+            feedback: FeedbackImpl { audio_state: 1. },
             keep_dropper_selection: false,
             show_settings: false,
             adaptive_difficulty: true,
@@ -415,7 +415,7 @@ impl GameState {
         SettingsState {
             difficulty: self.difficulty,
             keep_dropper_selection: self.keep_dropper_selection,
-            audio_state: self.feedback.get_audio_state(),
+            audio_state: (self.feedback.get_audio_state() * 100.).round() as i32,
             adaptive_difficulty: self.adaptive_difficulty,
             reset_level: false,
         }
@@ -423,7 +423,7 @@ impl GameState {
 
     pub fn apply_settings(&mut self, settings: &SettingsState) {
         self.keep_dropper_selection = settings.keep_dropper_selection;
-        self.feedback.set_audio_state(settings.audio_state);
+        self.feedback.set_audio_state(settings.audio_state as f64 / 100.);
         self.adaptive_difficulty = settings.adaptive_difficulty;
 
         if self.difficulty != settings.difficulty || settings.reset_level {

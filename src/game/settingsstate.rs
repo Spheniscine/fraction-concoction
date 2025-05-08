@@ -6,7 +6,7 @@ use super::Difficulty;
 pub struct SettingsState {
     pub difficulty: Difficulty,
     pub keep_dropper_selection: bool,
-    pub audio_state: bool,
+    pub audio_state: i32,
     pub adaptive_difficulty: bool,
     pub reset_level: bool,
 }
