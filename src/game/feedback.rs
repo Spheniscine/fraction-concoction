@@ -41,7 +41,7 @@ fn deserialize_audio_state<'de, D>(deserializer: D) -> Result<f64, D::Error> whe
         type Value = f64;
     
         fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
-            write!(formatter, "value between 0.0 and 1.0, supports booleans for legacy")
+            write!(formatter, "value between 0.0 and 1.0, supports booleans for back-compatibility")
         }
 
         fn visit_bool<E>(self, v: bool) -> Result<Self::Value, E>

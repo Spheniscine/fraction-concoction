@@ -117,11 +117,12 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
                 "Audio: ",
                 input {
                     r#type: "range",
-                    style: "width: 20rem; height: 4rem;",
+                    style: "width: 50rem; height: 4rem;",
                     min: 0, max: 100, step: 5, 
                     value: state.read().audio_state,
-                    onchange: audio_settings_changed
-                }
+                    oninput: audio_settings_changed
+                },
+                " {state.read().audio_state}",
             },
 
             p { 
