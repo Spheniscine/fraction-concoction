@@ -199,6 +199,8 @@ pub const ADJECTIVES: &[&str] = &[
     "Dihydrogen",
     "Quick-drying",
     "Micellar",
+    "Crystallized",
+    "Enriched"
 ];
 
 pub const NOUNS: &[&str] = &[
@@ -393,4 +395,5 @@ pub const NOUNS: &[&str] = &[
     "Monoxide", 
     "Coolant", 
     "Water",
+    "Dew",
 ];
