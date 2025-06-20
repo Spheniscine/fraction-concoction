@@ -416,6 +416,11 @@ impl GameState {
         self.recipe.ingredients.iter().all(|i| i.done)
     }
 
+    pub fn do_show_settings(&mut self) {
+        self.advance(); // make sure not stuck at won state
+        self.show_settings = true;
+    }
+
     pub fn new_settings_state(&self) -> SettingsState {
         SettingsState {
             difficulty: self.difficulty,
