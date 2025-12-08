@@ -69,7 +69,7 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
             onmounted: onmounted,
             onkeydown: onkeydown,
             
-            p { "Difficulty options: ",
+            p { "Difficulty: ",
                 select {
                     style: "font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
                     onchange: difficulty_changed,
