@@ -14,6 +14,12 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    /* disables scrolling */
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
 }
 
 #hero {
