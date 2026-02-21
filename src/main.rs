@@ -10,8 +10,8 @@ mod utils;
 mod game;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
-const MAIN_CSS: &str = include_str!("../assets/styling/main.css");
-const TAILWIND_CSS: &str = include_str!("../assets/tailwind.css");
+const MAIN_CSS: &str = const_css_minify::minify!("../assets/styling/main.css");
+const TAILWIND_CSS: &str = const_css_minify::minify!("../assets/tailwind.css");
 
 fn main() {
     dioxus::launch(App);
