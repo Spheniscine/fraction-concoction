@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Fraction Concoction</title>
-        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="UTF-8">
-    <link rel="preload" as="script" href="/fraction-concoction/assets/fraction-concoction-dxh8e5a448580b8672.js" crossorigin></head>
-    <body>
-        <div id="main"></div>
-    <script type="module" async src="/fraction-concoction/assets/fraction-concoction-dxh8e5a448580b8672.js"></script>
+  <head>
+    <title>Fraction Concoction</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+  <link rel="preload" as="script" href="/fraction-concoction/assets/fraction-concoction-3c8a5b52a0ca7519.js" crossorigin><link rel="preload" as="fetch" type="application/wasm" href="/fraction-concoction/assets/fraction-concoction_bg-990935a90f658a38.wasm" crossorigin></head>
+  <body>
+    <div id="main"></div>
+  <script>
+            // We can't use a module script here because we need to start the script immediately when streaming
+            import("/fraction-concoction/assets/fraction-concoction-3c8a5b52a0ca7519.js").then(
+                ({ default: init }) => {
+                init("/fraction-concoction/assets/fraction-concoction_bg-990935a90f658a38.wasm").then((wasm) => {
+                    if (wasm.__wbindgen_start == undefined) {
+                    wasm.main();
+                    }
+                });
+                }
+            );
+            </script>
+            
             </body>
 </html>
