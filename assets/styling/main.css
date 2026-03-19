@@ -33,7 +33,9 @@ body {
     align-items: center;
 }
 
-#links {
+/* boilerplate for testing on Dioxus default page */
+
+/* #links {
     width: 80rem;
     text-align: left;
 
@@ -60,8 +62,7 @@ body {
 
 #header {
     width: 100rem;
-    /* max-width: 240rem; */
-}
+} */
 
 @keyframes shake {
     0% { transform: translate(.2rem, .2rem) rotate(0deg); }
@@ -75,4 +76,13 @@ body {
     80% { transform: translate(-.2rem, -.2rem) rotate(1deg); }
     90% { transform: translate(.2rem, .4rem) rotate(0deg); }
     100% { transform: translate(.2rem, -.4rem) rotate(-1deg); }
+}
+
+.selected {
+    filter: drop-shadow(0 0 2rem #ff0);
+}
+
+.shake {
+    animation: shake 1s;
+    animation-iteration-count: infinite;
 }

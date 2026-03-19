@@ -17,19 +17,16 @@ pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                 let text_color = dropper.fill.contrast_html_color();
                 let tex = dropper.capacity.to_tex();
 
-                let selected_background = if state.selected == Some(entity) {
-                    "filter: drop-shadow(0 0 2rem #ff0);"
-                } else {
-                    ""
-                };
+                let selected = if state.selected == Some(entity) {"selected "} else {""};
                 rsx! {
                     div {
                         onclick: move |_| game_state.write().click_entity(entity),
                         style: "{style}",
 
                         img { 
+                            class: selected,
                             src: DROPPER_BACK_SVG,
-                            style: "position: absolute; margin: 0 auto; width: 15rem; height: 28rem; {selected_background}",
+                            style: "position: absolute; margin: 0 auto; width: 15rem; height: 28rem;",
                         }
 
                         div {

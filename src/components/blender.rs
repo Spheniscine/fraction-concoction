@@ -21,7 +21,7 @@ pub fn Blender(entity: Entity, game_state: Signal<GameState>, style: String) -> 
     match entity {
         Entity::Blender => {
             let shake = if game_state().is_won() {
-                "animation: shake 1s; animation-iteration-count: infinite;"
+                "shake "
             } else {""};
             rsx! {
                 div {
@@ -33,8 +33,9 @@ pub fn Blender(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                     },
                     style,
                     img {
+                        class: shake,
                         src: BLENDER_SVG,
-                        style: "height: 90%; {shake}"
+                        style: "height: 90%;"
                     }
                 },
             }
