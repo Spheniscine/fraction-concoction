@@ -1,27 +1,10 @@
-# Development
+# Fraction Concoction
 
-Your new jumpstart project includes basic organization with an organized `assets` folder and a `components` folder. 
-If you chose to develop with the router feature, you will also have a `views` folder.
+A web game where you mix alchemical reagents according to a recipe involving addition and subtraction of fractions.
 
-### Tailwind
-1. Install npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
-2. Install the Tailwind CSS CLI: https://tailwindcss.com/docs/installation
-3. Run the following command in the root of the project to start the Tailwind CSS compiler:
+Play here: [https://spheniscine.github.io/fraction-concoction/]<br>
+Or here (ad-supported) [https://www.onlinemathlearning.com/fraction-concoction-game.html]
 
-```bash
-npx tailwindcss -i ./input.css -o ./assets/tailwind.css --watch
-```
+Click the gear icon for options, including difficulty adjustment, level resetting, and audio volume.
 
-### Serving Your App
-
-Run the following command in the root of your project to start developing with the default platform:
-
-```bash
-dx serve
-```
-
-To run for a different platform, use the `--platform platform` flag. E.g.
-```bash
-dx serve --platform desktop
-```
-
+The question mark icon links to a video tutorial.
