@@ -1,12 +1,23 @@
+use std::time::Duration;
+
 use dioxus::prelude::*;
 
-use crate::{components::Math, game::{self, Entity, GameState, OptionColorExt, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR}};
+use crate::{components::{ErrorFeedback, Math, use_error_trigger, use_trigger}, game::{self, Entity, GameState, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR, OptionColorExt}};
 
 const BEAKER_BACK_SVG: Asset = asset!("/assets/images/beaker-back.svg");
 
 #[component]
 pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
     let state = game_state();
+
+    let error_trigger = use_error_trigger();
+    let mut cloned = error_trigger.clone();
+    let onclick = move |evt: Event<MouseData>| {
+        if game_state.write().click_entity(entity).is_err() {
+            cloned.trigger(evt.client_coordinates())
+        }
+    };
+
     match entity {
         Entity::Beaker { index } => {
             if let Some(beaker) = state.beakers[index] {
@@ -17,7 +28,7 @@ pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> E
                 let selected = if state.selected == Some(entity) {"selected "} else {""};
                 rsx! {
                     div {
-                        onclick: move |_| game_state.write().click_entity(entity),
+                        onclick,
                         style: {style},
 
                         img { 
@@ -34,6 +45,10 @@ pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> E
                                 style: "font-size: 4.5rem; color: {text_color}",
                                 tex: "{frac_tex} {color_tex}",
                             }
+                        }
+
+                        ErrorFeedback { 
+                            trigger: error_trigger.signal,
                         }
                     }
                 }

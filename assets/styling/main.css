@@ -86,3 +86,21 @@ body {
     animation: shake 1s;
     animation-iteration-count: infinite;
 }
+
+@keyframes fading {
+    0% {opacity:1}
+    100% {opacity:0}
+}
+
+.fading {
+    animation: fading 0.5s;
+}
+
+/* #preloaded-images {
+   position: absolute;
+   overflow: hidden;
+   left: -9999rem; 
+   top: -9999rem;
+   height: 1px;
+   width: 1px;
+} */

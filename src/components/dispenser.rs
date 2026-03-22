@@ -13,7 +13,7 @@ pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -
             let tex = color.to_tex_symbol();
             rsx! {
                 div {
-                    onclick: move |_| game_state.write().click_entity(entity),
+                    onclick: move |_| {game_state.write().click_entity(entity);},
                     style: {style},
                     img { 
                         src: DISPENSER_SVG,

@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use dioxus::prelude::*;
 
-use crate::{components::{math::Math, AudioIcon, AudioPreloader, Beaker, Blender, Dispenser, Dropper, HelpIcon, Recipe, Settings, SettingsIcon, Trash}, game::{random_name, Color, Difficulty, Entity, GameState}, utils::Fraction};
+use crate::{components::{AudioIcon, AudioPreloader, Beaker, Blender, Dispenser, Dropper, HelpIcon, Recipe, Settings, SettingsIcon, Trash, math::Math}, game::{Color, Difficulty, Entity, GameState, random_name}, utils::Fraction};
 
 use super::LocalStorage;
 
@@ -153,6 +153,14 @@ pub fn Hero() -> Element {
                     style: "position: absolute; left: 86rem; top: 164.7rem; width: 10rem; height: 10rem;",
                     game_state: state,
                 },
+
+                // div {
+                //     id: "preloaded-images",
+                //     img {
+                //         src: FA_XMARK_SVG,
+                //         width: 1, height: 1,
+                //     },
+                // }
             } else {
                 Settings {
                     game_state: state,
