@@ -20,11 +20,17 @@ pub struct TriggerEvent<T> {
 pub fn use_trigger<T>(duration: Duration) -> Trigger<T> {
     let mut signal = use_signal(|| vec![]);
     let coroutine = use_coroutine(move |mut rx| async move {
+        // This coroutine tries to cleanup the event list when `duration` has passed since the last event.
         while let Some(_) = rx.next().await {
-            if signal.read().is_empty() { continue; }
-            async_std::task::sleep(duration).await;
-            if signal.read().last().is_some_and(|evt: &TriggerEvent<T>| evt.time.elapsed() >= duration) {
-                signal.write().clear();
+            loop {
+                let Some(remaining) = signal.read().last().map(|evt: &TriggerEvent<T>| {
+                    duration.saturating_sub(evt.time.elapsed())
+                }) else { break };
+                if remaining.is_zero() {
+                    signal.write().clear();
+                } else {
+                    async_std::task::sleep(remaining).await;
+                }
             }
         }
     });
