@@ -7,6 +7,12 @@ pub use local_storage::LocalStorage;
 mod hero;
 pub use hero::Hero;
 
+mod trigger;
+pub use trigger::*;
+
+mod error_feedback;
+pub use error_feedback::*;
+
 mod dispenser;
 pub use dispenser::Dispenser;
 

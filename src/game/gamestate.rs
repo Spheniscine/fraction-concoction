@@ -276,8 +276,8 @@ impl GameState {
     }
 
 
-    pub fn click_entity(&mut self, entity: Entity) {
-        (||{
+    pub fn click_entity(&mut self, entity: Entity) -> Result<(), ()> {
+        let res = (||{
             match self.selected {
                 None => {
                     match entity {
@@ -304,7 +304,7 @@ impl GameState {
                             }
                         }
                         Entity::Beaker { index: beaker_index } => {
-                            let Some(beaker) = self.beakers[beaker_index] else {return};
+                            let Some(beaker) = self.beakers[beaker_index] else {return Err(())};
                             let dropper = self.droppers[dropper_index];
                             if let Some(color) = dropper.fill {
                                 if beaker.fill.is_none_or(|c| c == color) {
@@ -316,6 +316,7 @@ impl GameState {
                                     if !self.keep_dropper_selection { self.selected = None; }
                                 } else {
                                     self.feedback.play_audio(Audio::Error);
+                                    return Err(());
                                 }
                             } else {
                                 if let Some(color) = beaker.fill {
@@ -329,6 +330,7 @@ impl GameState {
                                         }
                                     } else {
                                         self.feedback.play_audio(Audio::Error);
+                                        return Err(());
                                     }
                                 }
                             }
@@ -355,7 +357,7 @@ impl GameState {
                 Some(Entity::Beaker { index: beaker_index }) => {
                     let Some(beaker) = self.beakers[beaker_index] else {
                         self.selected = None;
-                        return
+                        return Ok(())
                     };
                     match entity {
                         Entity::Beaker { index: other_index } => {
@@ -396,6 +398,7 @@ impl GameState {
                                 }
                             } else {
                                 self.feedback.play_audio(Audio::Error);
+                                return Err(());
                             }
                         }
                         _ => {}
@@ -403,8 +406,10 @@ impl GameState {
                 }
                 _ => {}
             }
+            Ok(())
         })();
         LocalStorage.save_game_state(&self);
+        res
     }
 
     pub fn toggle_audio(&mut self) {

@@ -20,7 +20,7 @@ pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                 let selected = if state.selected == Some(entity) {"selected "} else {""};
                 rsx! {
                     div {
-                        onclick: move |_| game_state.write().click_entity(entity),
+                        onclick: move |_| {game_state.write().click_entity(entity);},
                         style: "{style}",
 
                         img { 
