@@ -1,34 +1,43 @@
 use std::time::Duration;
-use rand::RngCore;
+use async_std::stream::StreamExt;
 use web_time::Instant;
 
 use dioxus::prelude::*;
 
-pub type Trigger<T> = Signal<Vec<TriggerEvent<T>>>;
+pub type TriggerSignal<T> = Signal<Vec<TriggerEvent<T>>>;
+
+#[derive(Clone)]
+pub struct Trigger<T: 'static> {
+    pub signal: Signal<Vec<TriggerEvent<T>>>,
+    pub coroutine: Coroutine<()>,
+}
 
 pub struct TriggerEvent<T> {
     pub time: Instant,
-    pub id: u64,
     pub message: T,
 }
 
-pub fn use_trigger<T>() -> Trigger<T> {
-    use_signal(|| vec![])
+pub fn use_trigger<T>(duration: Duration) -> Trigger<T> {
+    let mut signal = use_signal(|| vec![]);
+    let coroutine = use_coroutine(move |mut rx| async move {
+        while let Some(_) = rx.next().await {
+            if signal.read().is_empty() { continue; }
+            async_std::task::sleep(duration).await;
+            if signal.read().last().is_some_and(|evt: &TriggerEvent<T>| evt.time.elapsed() >= duration) {
+                signal.write().clear();
+            }
+        }
+    });
+    Trigger {
+        signal, coroutine
+    }
 }
 
-#[extension(pub trait TriggerExt)]
-impl <T> Trigger<T> {
-    fn trigger(&mut self, message: T) {
-        self.write().push(TriggerEvent {
-            time: Instant::now(),
-            id: rand::rng().next_u64(),
-            message
+impl <T: 'static> Trigger<T> {
+    pub fn trigger(&mut self, message: T) {
+        self.signal.write().push(TriggerEvent { 
+            time: Instant::now(), message 
         });
-    }
-
-    fn retain_recent(&mut self, duration: Duration) {
-        self.write().retain(|ev| {
-            ev.time.elapsed() <= duration
-        });
+        self.coroutine.send(());
     }
 }

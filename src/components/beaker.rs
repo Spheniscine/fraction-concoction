@@ -1,6 +1,8 @@
+use std::time::Duration;
+
 use dioxus::prelude::*;
 
-use crate::{components::{ErrorFeedback, Math, TriggerExt, use_trigger}, game::{self, Entity, GameState, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR, OptionColorExt}};
+use crate::{components::{ErrorFeedback, Math, use_error_trigger, use_trigger}, game::{self, Entity, GameState, NEUTRAL_CONTRAST_COLOR, NEUTRAL_HTML_COLOR, OptionColorExt}};
 
 const BEAKER_BACK_SVG: Asset = asset!("/assets/images/beaker-back.svg");
 
@@ -8,10 +10,11 @@ const BEAKER_BACK_SVG: Asset = asset!("/assets/images/beaker-back.svg");
 pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> Element {
     let state = game_state();
 
-    let mut error_trigger = use_trigger();
+    let error_trigger = use_error_trigger();
+    let mut cloned = error_trigger.clone();
     let onclick = move |evt: Event<MouseData>| {
         if game_state.write().click_entity(entity).is_err() {
-            error_trigger.trigger(evt.client_coordinates())
+            cloned.trigger(evt.client_coordinates())
         }
     };
 
@@ -45,7 +48,7 @@ pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> E
                         }
 
                         ErrorFeedback { 
-                            trigger: error_trigger.into(),
+                            trigger: error_trigger.signal,
                         }
                     }
                 }
