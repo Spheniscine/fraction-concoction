@@ -4,7 +4,7 @@ use dioxus::{html::geometry::{ClientPoint}, prelude::*};
 
 use crate::components::{Trigger, TriggerSignal, use_trigger};
 
-const FA_XMARK_SVG: Asset = asset!("/assets/images/fa-xmark.svg");
+pub const ERROR_SVG: Asset = asset!("/assets/images/circle-xmark-regular.svg");
 
 pub fn use_error_trigger() -> Trigger<ClientPoint> {
     use_trigger(Duration::from_secs_f32(0.5))
@@ -22,7 +22,7 @@ pub fn ErrorFeedback(mut trigger: TriggerSignal<ClientPoint>) -> Element {
                 class: "fading",
                 style: "position: fixed; left: {x}px; top: {y}px; width: 7rem; height: 7rem; 
                 opacity: 0; transform: translate(-50%, -50%);",
-                src: FA_XMARK_SVG,
+                src: ERROR_SVG,
             }
         }
     }
