@@ -1,29 +1,34 @@
 use std::time::Duration;
+use rand::RngCore;
 use web_time::Instant;
 
 use dioxus::prelude::*;
 
-pub type Trigger<T> = Signal<Option<(Instant, T)>>;
-pub type ReadTrigger<T> = ReadSignal<Option<(Instant, T)>, UnsyncStorage>;
+pub type Trigger<T> = Signal<Vec<TriggerEvent<T>>>;
+
+pub struct TriggerEvent<T> {
+    pub time: Instant,
+    pub id: u64,
+    pub message: T,
+}
 
 pub fn use_trigger<T>() -> Trigger<T> {
-    use_signal(|| None)
+    use_signal(|| vec![])
 }
 
 #[extension(pub trait TriggerExt)]
 impl <T> Trigger<T> {
     fn trigger(&mut self, message: T) {
-        *self.write() = Some((Instant::now(), message));
+        self.write().push(TriggerEvent {
+            time: Instant::now(),
+            id: rand::rng().next_u64(),
+            message
+        });
     }
-}
 
-#[extension(pub trait ReadTriggerExt)]
-impl <T> ReadTrigger<T> {
-    fn check<R>(&self, duration: Duration, action: impl FnOnce(&T) -> R) -> Option<R> {
-        self.read().as_ref().and_then(|(time, message)| {
-            if Instant::now() - *time <= duration {
-                Some(action(message))
-            } else {None}
-        })
+    fn retain_recent(&mut self, duration: Duration) {
+        self.write().retain(|ev| {
+            ev.time.elapsed() <= duration
+        });
     }
 }
