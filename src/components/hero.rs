@@ -153,14 +153,6 @@ pub fn Hero() -> Element {
                     style: "position: absolute; left: 86rem; top: 164.7rem; width: 10rem; height: 10rem;",
                     game_state: state,
                 },
-
-                // div {
-                //     id: "preloaded-images",
-                //     img {
-                //         src: FA_XMARK_SVG,
-                //         width: 1, height: 1,
-                //     },
-                // }
             } else {
                 Settings {
                     game_state: state,
