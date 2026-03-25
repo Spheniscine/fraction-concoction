@@ -64,6 +64,11 @@ body {
     width: 100rem;
 } */
 
+.select-none {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 @keyframes shake {
     0% { transform: translate(.2rem, .2rem) rotate(0deg); }
     10% { transform: translate(-.2rem, -.4rem) rotate(-1deg); }
@@ -96,11 +101,11 @@ body {
     animation: fading 0.5s;
 }
 
-/* #preloaded-images {
+#preloaded-images {
    position: absolute;
    overflow: hidden;
    left: -9999rem; 
    top: -9999rem;
    height: 1px;
    width: 1px;
-} */
+}
