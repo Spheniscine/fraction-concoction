@@ -24,7 +24,7 @@ pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -
                         style: "background-color: {background_color}; position: absolute; top: 8.5rem; padding: 2rem; 
                         left: 3.2rem; width: 7.5rem; border-radius: 1rem; text-align: center",
                         Math {
-                            style: "font-size: 7rem; color: {text_color}",
+                            font_size: "7rem", color: text_color,
                             tex: {tex},
                         }
                     }

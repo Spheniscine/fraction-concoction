@@ -34,7 +34,7 @@ pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                             height: 18.1rem; width: 8.3rem; border-radius: 0 0 5rem 5rem; 
                             line-height: 18.1rem; text-align: center;",
                             Math {
-                                style: "font-size: 4.5rem; color: {text_color}",
+                                font_size: "4.5rem", color: text_color,
                                 tex: {tex},
                             }
                         }

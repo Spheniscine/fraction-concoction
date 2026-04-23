@@ -42,7 +42,7 @@ pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> E
                             height: 18.5rem; width: 16.4rem; border-radius: 0 0 3rem 3rem; 
                             line-height: 18.5rem; text-align: center;",
                             Math {
-                                style: "font-size: 4.5rem; color: {text_color}",
+                                font_size: "4.5rem", color: text_color,
                                 tex: "{frac_tex} {color_tex}",
                             }
                         }
