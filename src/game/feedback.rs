@@ -1,9 +1,12 @@
 use dioxus::{document, prelude::*};
+use enum_map::{Enum, EnumMap};
 use serde::{de::Visitor, Deserialize, Deserializer, Serialize};
 use strum_macros::{EnumCount, EnumIter};
 use web_sys::HtmlAudioElement;
 
-#[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq)]
+use crate::components::AUDIO;
+
+#[derive(Clone, Copy, Debug, EnumCount, EnumIter, Hash, Eq, PartialEq, Enum)]
 pub enum Audio {
     Clink, Pour1, Pour2, Drain, Blend, Error
 }
@@ -68,11 +71,28 @@ fn deserialize_audio_state<'de, D>(deserializer: D) -> Result<f64, D::Error> whe
 
 impl Feedback for FeedbackImpl {
     fn play_audio(&self, audio: Audio) {
+        
         if self.audio_state > 0. {
-            if let Ok(e) = HtmlAudioElement::new_with_src(&audio.asset().to_string()) {
-                e.set_volume(self.audio_state);
-                e.play();
-            }
+            AUDIO.with(|cell| {
+                cell.get_or_init(|| {
+                    EnumMap::from_fn(|audio: Audio| {
+                        // document::eval(format!(r#"
+                        //     console.log("{}");
+                        // "#, audio.asset()).as_str())
+                        document::eval(format!(r#"
+                            var howl = new Howl ({{ src: ['{}'] }});
+                            while (true) {{
+                                let volume = await dioxus.recv();
+                                howl.volume(volume);
+                                howl.play();
+                            }}
+                        "#, audio.asset()).as_str())
+                    })
+                });
+                if let Some(map) = cell.get() {
+                    map[audio].send(self.audio_state);
+                }
+            });
         }
     }
     

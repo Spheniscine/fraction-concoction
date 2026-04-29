@@ -21,6 +21,7 @@ web-sys = { version = "0.3.77", features = ["Window", "Storage", "HtmlAudioEleme
 serde_json = "1.0.140"
 const-css-minify = "1.0.0"
 web-time = "1.1.0"
+enum-map = "2.7.3"
 
 [features]
 default = ["web"]

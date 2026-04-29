@@ -25,6 +25,9 @@ fn App() -> Element {
 
     rsx! {
         // Global app resources
+        document::Script {
+            src: "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.8/howler.js",
+        }
         document::Link {
             rel: "stylesheet",
             href: "https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css",

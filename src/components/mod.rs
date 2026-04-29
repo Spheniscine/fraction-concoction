@@ -32,7 +32,7 @@ mod trash;
 pub use trash::Trash;
 
 mod audio_preloader;
-pub use audio_preloader::AudioPreloader;
+pub use audio_preloader::*;
 
 mod help_icon;
 pub use help_icon::HelpIcon;
