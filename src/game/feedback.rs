@@ -74,21 +74,6 @@ impl Feedback for FeedbackImpl {
         
         if self.audio_state > 0. {
             AUDIO.with(|cell| {
-                cell.get_or_init(|| {
-                    EnumMap::from_fn(|audio: Audio| {
-                        // document::eval(format!(r#"
-                        //     console.log("{}");
-                        // "#, audio.asset()).as_str())
-                        document::eval(format!(r#"
-                            var howl = new Howl ({{ src: ['{}'] }});
-                            while (true) {{
-                                let volume = await dioxus.recv();
-                                howl.volume(volume);
-                                howl.play();
-                            }}
-                        "#, audio.asset()).as_str())
-                    })
-                });
                 if let Some(map) = cell.get() {
                     map[audio].send(self.audio_state);
                 }

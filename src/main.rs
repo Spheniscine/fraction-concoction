@@ -13,6 +13,7 @@ const FAVICON: Asset = asset!("/assets/favicon.ico");
 
 // string inclusion is used to prevent FOUC
 const MAIN_CSS: &str = const_css_minify::minify!("../assets/styling/main.css");
+const HOWLER_JS: &str = include_str!("../assets/scripts/howler.min.js");
 // const TAILWIND_CSS: &str = const_css_minify::minify!("../assets/tailwind.css");
 
 fn main() {
@@ -26,7 +27,7 @@ fn App() -> Element {
     rsx! {
         // Global app resources
         document::Script {
-            src: "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.8/howler.js",
+            "{HOWLER_JS}",
         }
         document::Link {
             rel: "stylesheet",
