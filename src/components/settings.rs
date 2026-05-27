@@ -5,6 +5,7 @@ use crate::game::{Difficulty, Feedback, GameState};
 
 #[component]
 pub fn Settings(game_state: Signal<GameState>) -> Element {
+    let mut game_state = game_state; // needed to satisfy borrow checker for use in closures
     let mut state = use_signal(|| {
         game_state.read().new_settings_state()
     });
@@ -32,26 +33,25 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
         state.write().audio_state = evt.value().parse().unwrap_or(100);
     };
 
-    let mut ok = move |_| {
+    let mut ok = move || {
         game_state.write().apply_settings(&state.read());
         game_state.write().show_settings = false;
     };
-    let mut cancel = move |_| {
+    let mut cancel = move || {
         game_state.write().show_settings = false;
     };
 
-    let mut onmounted = async move |e: Event<MountedData>| {
-        e.set_focus(true).await;
+    let onmounted = async move |e: Event<MountedData>| {
+        let _ = e.set_focus(true).await;
     };
-    let mut onkeydown = move |e: Event<KeyboardData>| {
+    let onkeydown = move |e: Event<KeyboardData>| {
         let key = e.key();
         match key {
             Key::Enter => {
-                game_state.write().apply_settings(&state.read());
-                game_state.write().show_settings = false;
+                ok();
             }
             Key::Escape => {
-                game_state.write().show_settings = false;
+                cancel();
             }
             _ => {}
         }
@@ -129,14 +129,14 @@ pub fn Settings(game_state: Signal<GameState>) -> Element {
                 button {
                     r#type: "button",
                     style: "width: 20rem; font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
-                    onclick: ok,
+                    onclick: move |_| ok(),
                     "OK"
                 },
                 " ",
                 button {
                     r#type: "button",
                     style: "width: 20rem; font-size: 5rem; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;",
-                    onclick: cancel,
+                    onclick: move |_| cancel(),
                     "Cancel"
                 },
             },
