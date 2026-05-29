@@ -27,6 +27,7 @@ pub fn Dropper(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                             class: selected,
                             src: DROPPER_BACK_SVG,
                             style: "position: absolute; margin: 0 auto; width: 15rem; height: 28rem;",
+                            draggable: false,
                         }
 
                         div {

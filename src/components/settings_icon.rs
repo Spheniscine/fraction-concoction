@@ -12,7 +12,8 @@ pub fn SettingsIcon(style: String, game_state: Signal<GameState>) -> Element {
             img {
                 style: "cursor: pointer;",
                 src: FA_GEAR_SVG,
-                onclick: move |_| game_state.write().do_show_settings()
+                onclick: move |_| game_state.write().do_show_settings(),
+                draggable: false,
             }
         }
     }

@@ -41,7 +41,8 @@ pub fn Blender(entity: Entity, game_state: Signal<GameState>, style: String) -> 
                     img {
                         class: shake,
                         src: BLENDER_SVG,
-                        style: "height: 90%;"
+                        style: "height: 90%;",
+                        draggable: false,
                     },
                     ErrorFeedback { 
                         trigger: error_trigger.signal,

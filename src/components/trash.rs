@@ -15,6 +15,7 @@ pub fn Trash(entity: Entity, game_state: Signal<GameState>, style: String) -> El
                     img {
                         style: "width: 40rem; height: 40rem;",
                         src: TRASH_SVG,
+                        draggable: false,
                     }
                 },
             }

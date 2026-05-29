@@ -23,6 +23,7 @@ pub fn ErrorFeedback(mut trigger: TriggerSignal<ClientPoint>) -> Element {
                 style: "position: fixed; left: {x}px; top: {y}px; width: 7rem; height: 7rem; 
                 opacity: 0; transform: translate(-50%, -50%);",
                 src: ERROR_SVG,
+                draggable: false,
             }
         }
     }

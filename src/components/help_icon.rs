@@ -13,6 +13,7 @@ pub fn HelpIcon(style: String) -> Element {
                 target: "_blank",
                 img {
                     src: FA_QUESTION_SVG,
+                    draggable: false,
                 }
             }
         }

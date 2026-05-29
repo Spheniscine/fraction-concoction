@@ -18,6 +18,7 @@ pub fn Dispenser(entity: Entity, game_state: Signal<GameState>, style: String) -
                     img { 
                         src: DISPENSER_SVG,
                         style: "position: absolute; margin: 0 auto; width: 18rem",
+                        draggable: false,
                     }
 
                     div {

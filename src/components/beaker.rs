@@ -35,6 +35,7 @@ pub fn Beaker(entity: Entity, game_state: Signal<GameState>, style: String) -> E
                             class: selected,
                             src: BEAKER_BACK_SVG,
                             style: "position: absolute; margin: 0 auto; width: 29rem; height: 28rem;",
+                            draggable: false,
                         }
 
                         div {
